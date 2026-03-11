@@ -39,6 +39,7 @@ interface SiteData {
     events: Event[];
     videos: any[];
     contents: SlideContent[];
+    stats: any[];
     images: any;
     titles: any;
 }

@@ -471,7 +471,7 @@ const Home = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* slice(0, 2) ব্যবহার করে শুধুমাত্র সর্বশেষ ২ টি ইভেন্ট দেখানো হচ্ছে */}
           {content?.events?.slice(0, 2).map((event: any) => (
-            <EventCard key={event.id} event={event} />
+            <EventCard `key`={event.id} event={event} />
           ))}
         </div>
       </section>
