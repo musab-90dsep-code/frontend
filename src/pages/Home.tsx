@@ -383,7 +383,7 @@ const Home = () => {
       
 
       {/* Video Gallery Section */}
-      <section className="bg-gradient-to-b from-transparent via-emerald-50/50 to-transparent py-20 overflow-hidden">
+      <section className="bg-gradient-to-b from-transparent via-emerald-50/50 to-transparent  overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }}
@@ -429,15 +429,19 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }}
-          className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 border-b border-gray-200 pb-6 will-change-transform"
+          // এখানে flex-col এবং items-center ব্যবহার করে সবকিছু মাঝখানে আনা হয়েছে
+          className="flex flex-col items-center justify-center text-center mb-12 gap-4 border-b border-gray-200 pb-8 will-change-transform"
         >
           <div>
             <span className="text-accent-gold font-bold uppercase tracking-widest text-xs mb-2 block">Join Us</span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-primary-dark">
               {t('home.events.title')}
             </h2>
+            {/* ঐচ্ছিক: টাইটেলের নিচে একটি ছোট আন্ডারলাইন দিলে দেখতে আরও ভালো লাগে */}
+            <div className="w-16 h-1 bg-accent-gold mx-auto mt-4 rounded-full"></div>
           </div>
-          <Link to="/events" className="group inline-flex items-center gap-2 text-primary-dark font-bold hover:text-emerald-600 transition-colors uppercase tracking-wider text-sm">
+          
+          <Link to="/events" className="mt-2 group inline-flex items-center gap-2 text-primary-dark font-bold hover:text-emerald-600 transition-colors uppercase tracking-wider text-sm bg-gray-50 hover:bg-emerald-50 px-6 py-2.5 rounded-full border border-gray-100 hover:border-emerald-200">
             {t('home.events.viewAll')} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
