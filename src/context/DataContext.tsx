@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useContext, ReactNode } from
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 
-// ১. ডাটার টাইপগুলো ডিক্লেয়ার করা (TypeScript-এর জন্য)
+// ১. ডাটার টাইপগুলো ডিক্লেয়ার করা (TypeScript-এর জন্য)
 interface Notice {
     id?: number;
     title: string;
