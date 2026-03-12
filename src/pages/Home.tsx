@@ -1,37 +1,32 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Calendar, Bell, MapPin, Award, GraduationCap, BookOpen, Users, Clock } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Calendar, Bell, Newspaper, MapPin, Sparkles, Award, GraduationCap, BookOpen, Users, Clock, } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import Carousel from '../components/Carousel';
 import Typewriter from 'typewriter-effect';
 import { useData } from '../context/DataContext';
+import { useTranslation } from 'react-i18next'; // Jodi na thake, eita add korun
 
-// Home.tsx এর শুরুতে
+// Home.tsx এর শুরুতে BASE_URL ঠিক করে নিন
 const API_URL = import.meta.env.VITE_API_BASE_URL || "";
-// যদি API_URL থাকে তবে replace করবে, না থাকলে ডিফল্ট লোকালহোস্ট নিবে
-const BASE_URL = API_URL ? API_URL.replace('/content/', '') : '';
+const BASE_URL = API_URL ? new URL(API_URL).origin : '';
 
-// ইমেজ ইউআরএল ঠিক করার গ্লোবাল ফাংশন
-const getImageUrl = (url: string) => {
-  if (!url) return "";
-  // যদি URL টি ইতিমধ্যে http দিয়ে শুরু হয় (যেমন Cloudinary লিঙ্ক), তবে সরাসরি সেটিই দেখাবে
-  if (url.startsWith('http')) {
-    return url;
-  }
-  // অন্যথায় লোকাল মিডিয়া ফোল্ডারের জন্য BASE_URL যোগ করবে
-  return `${BASE_URL}${url}`;
-};
+
+
+
+
+
 
 const Home = () => {
   const { t, i18n } = useLanguage();
   const { content, loading, error } = useData(); // হুকগুলো উপরে রাখুন
 
-  const [selectedNotice, setSelectedNotice] = useState<any>(null);
+  const [selectedNotice, setSelectedNotice] = useState(null);
   const [startNewsIndex, setStartNewsIndex] = useState(0);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const ITEMS_PER_PAGE = 3;
-  const statsIcons = [<Users key="users" />, <BookOpen key="book" />, <GraduationCap key="cap" />, <Award key="award" />];
+  const statsIcons = [<Users />, <BookOpen />, <GraduationCap />, <Award />];
 
   // ১. স্লাইডার ইফেক্টটি সবসমই উপরে রাখুন (কোনো IF এর নিচে নয়)
   useEffect(() => {
@@ -47,6 +42,9 @@ const Home = () => {
   if (loading) return <div className="text-center mt-20 text-xl font-semibold">Loading...</div>;
   if (error) return <div className="text-red-600 text-center mt-20">{error}</div>;
   if (!content) return null;
+
+
+
 
   // স্লাইড বা অ্যারো হ্যান্ডেলার
   const nextNews = () => {
@@ -64,7 +62,43 @@ const Home = () => {
   };
 
   /* --- Reusable Cards --- */
-  const EventCard = ({ event }: { event: any }) => {
+  const NoticeCard = ({ notice, key }: { notice: any; key?: any }) => (
+    <div
+      onClick={() => setSelectedNotice(notice)}
+      className="group flex gap-4 p-4 rounded-2xl hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 cursor-pointer"
+    >
+      <div className="w-2 h-2 mt-2 rounded-full bg-accent-gold shrink-0 group-hover:scale-150 transition-transform"></div>
+      <div>
+        <h3 className="font-bold text-primary-dark mb-1 group-hover:text-primary-light transition-colors">{notice.title}</h3>
+        <p className="text-sm text-text-muted flex items-center gap-2">
+          <Calendar size={14} /> {notice.date}
+        </p>
+      </div>
+    </div>
+  );
+
+  const NewsCard = ({ news, key }: { news: any; key?: any }) => (
+    <div className="group flex gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200 cursor-pointer">
+      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+        <img
+          src={news.image_url}
+          alt="News thumbnail"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          referrerPolicy="no-referrer"
+          loading="lazy"
+        />
+      </div>
+      <div className="flex flex-col justify-center">
+        <h3 className="font-bold text-primary-dark mb-1 group-hover:text-primary-light transition-colors line-clamp-2">{news.title}</h3>
+        <p className="text-xs text-text-muted font-medium uppercase tracking-wider">{news.date}</p>
+      </div>
+    </div>
+  );
+
+
+
+
+  const EventCard = ({ event, key }: { event: any; key?: any }) => {
     const { language } = useLanguage();
     const isBn = language === 'bn';
 
@@ -76,7 +110,7 @@ const Home = () => {
             {isBn ? event.date_bn : event.date_en}
           </div>
           <img
-            src={getImageUrl(event.image)} // এখানে getImageUrl ব্যবহার করা হয়েছে
+            src={event.image_url}
             alt={isBn ? event.title_bn : event.title_en}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
@@ -103,7 +137,6 @@ const Home = () => {
       </div>
     );
   };
-
   return (
     <div className="space-y-32 pb-24">
       {/* Notice Modal */}
@@ -159,18 +192,21 @@ const Home = () => {
                 }`}
             >
               <img
-                src={getImageUrl(item.image_url)} // এখানে getImageUrl ব্যবহার করা হয়েছে
+                src={item.image_url}
                 alt="Madrasa"
                 className={`w-full h-full object-cover transition-transform duration-6000 ease-linear ${index === currentSlide ? 'scale-110' : 'scale-100'
                   }`}
                 referrerPolicy="no-referrer"
               />
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-primary-dark/70 via-primary-dark/50 to-primary-dark/90 mix-blend-multiply"></div>
+              {/* Overlay - ইমেজের ভেতরেই রাখা ভালো যাতে প্রতিটির ওপর একই ইফেক্ট থাকে */}
+              <div className="absolute inset-0 bg-linear-to-b from-primary-dark/70 via-primary-dark/50 to-primary-dark/90 mix-blend-multiply"></div>
             </div>
           ))}
 
-          {/* Standard Indicators */}
+
+
+
+          {/* Standard Indicators - ছোট ডটগুলো */}
           {content.contents.length > 1 && (
             <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex gap-2">
               {content.contents.map((_, i) => (
@@ -185,6 +221,9 @@ const Home = () => {
           )}
         </div>
 
+
+
+
         {/* Hero Text Content */}
         <div className="relative z-10 w-full h-full flex items-center justify-center mx-auto ">
           <div className="px-6 w-full max-w-4xl mx-auto flex flex-col items-center">
@@ -195,6 +234,7 @@ const Home = () => {
               className="text-3xl md:text-5xl lg:text-5xl font-bold !text-white mb-4 uppercase tracking-tight leading-[1.3] md:leading-[1.2] text-center"
             >
               <Typewriter
+                // language এবং title পরিবর্তন হলে টাইপরাইটার রিসেট হবে
                 key={t('home.title1')}
                 options={{
                   autoStart: true,
@@ -205,6 +245,7 @@ const Home = () => {
                 }}
                 onInit={(typewriter) => {
                   typewriter
+                    // title1 এবং title2 কে একসাথে দেখাবে
                     .typeString(`${t('home.title1')} <br /> ${t('home.title2')}`)
                     .start();
                 }}
@@ -221,8 +262,11 @@ const Home = () => {
             </motion.p>
           </div>
         </div>
+
       </section>
 
+
+      {/* Stats Section - Floating Design */}
       {/* Stats Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-30 mb-16">
         <div className="bg-white/90 backdrop-blur-2xl rounded-[2rem] shadow-[0_30px_60px_rgba(0,0,0,0.12)] border border-white/50 p-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -240,6 +284,7 @@ const Home = () => {
                   {stat.number}
                 </h3>
                 <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">
+                  {/* i18n এখন ডিফাইন করা আছে */}
                   {i18n?.language === 'bn' ? stat.label_bn : stat.label_en}
                 </p>
               </div>
@@ -247,6 +292,7 @@ const Home = () => {
           ))}
         </div>
       </section>
+
 
       {/* News Section */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
@@ -266,7 +312,7 @@ const Home = () => {
                 <div className="rounded-xl overflow-hidden mb-4 relative h-80 sm:h-75 w-full bg-gray-100">
                   <motion.img
                     key={content.news[0].id}
-                    src={getImageUrl(content.news[0].image_url)} // এখানে getImageUrl ব্যবহার করা হয়েছে
+                    src={content.news[0].image_url}
                     alt={content.news[0].title}
                     className="w-full h-full object-cover"
                     initial={{ opacity: 0 }}
@@ -282,6 +328,7 @@ const Home = () => {
 
                 <div className="flex justify-between items-center mt-auto pt-2">
                   <span className="px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-md text-xs font-bold uppercase">Latest News</span>
+                  {/* পরিবর্তন ১: এখানে button এর বদলে Link দেওয়া হয়েছে */}
                   <Link
                     to={`/news/${content.news[0].id}`}
                     className="p-2.5 bg-gray-100 hover:bg-emerald-600 hover:text-white rounded-lg transition-all inline-block"
@@ -306,7 +353,7 @@ const Home = () => {
               >
                 <div className="w-24 h-20 sm:w-28 sm:h-24 rounded-lg overflow-hidden shrink-0 bg-gray-100">
                   <img
-                    src={getImageUrl(newsItem.image_url)} // এখানে getImageUrl ব্যবহার করা হয়েছে
+                    src={newsItem.image_url}
                     alt={newsItem.title}
                     className="w-full h-full object-cover"
                   />
@@ -319,6 +366,7 @@ const Home = () => {
                   <p className="text-[10px] text-accent-gold font-bold uppercase">{newsItem.date}</p>
                 </div>
 
+                {/* পরিবর্তন ২: এখানে button এর বদলে Link দেওয়া হয়েছে */}
                 <Link
                   to={`/news/${newsItem.id}`}
                   className="p-2 bg-gray-50 hover:bg-emerald-600 hover:text-white rounded-lg transition-colors inline-block"
@@ -360,7 +408,6 @@ const Home = () => {
 
         </div>
       </section>
-
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Notice Board Section */}
         <div className="bg-white rounded-3xl shadow-sm border border-border-subtle overflow-hidden flex flex-col p-6">
@@ -395,6 +442,7 @@ const Home = () => {
             </Link>
           </div>
         </div>
+
       </section>
 
       {/* Video Gallery Section - Enhanced Version */}
@@ -408,6 +456,7 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16 relative"
           >
+            {/* Decorative Label */}
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-widest mb-4">
               <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
               Multimedia Gallery
@@ -471,12 +520,14 @@ const Home = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* slice(0, 2) ব্যবহার করে শুধুমাত্র সর্বশেষ ২ টি ইভেন্ট দেখানো হচ্ছে */}
           {content?.events?.slice(0, 2).map((event: any) => (
-            <EventCard `key`={event.id} event={event} />
+            <EventCard key={event.id} event={event} />
           ))}
         </div>
       </section>
 
     </div>
+
+
   );
 };
 

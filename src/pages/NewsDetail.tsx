@@ -55,7 +55,7 @@ const NewsDetail = () => {
           {/* 1. High-Res Image */}
           <div className="w-full rounded-3xl overflow-hidden shadow-sm mb-8 bg-gray-100 aspect-video">
             <img
-              src={`${BASE_URL}${currentNews.image_url}`}
+              src={currentNews.image_url}
               alt={currentNews.title}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               referrerPolicy="no-referrer"
@@ -89,7 +89,7 @@ const NewsDetail = () => {
                   {/* Small Thumbnail */}
                   <div className="w-24 h-24 rounded-xl overflow-hidden shrink-0 bg-gray-100">
                     <img
-                      src={`${BASE_URL}${newsItem.image_url}`}
+                      src={newsItem.image_url}
                       alt={newsItem.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />

@@ -54,7 +54,7 @@ const Teachers = () => {
             {/* ছবি সেকশন */}
             <div className="relative aspect-[3/4] overflow-hidden rounded-2xl mb-6 shadow-lg w-4/5 mx-auto">
               <img 
-                src={teacher.image.startsWith('http') ? teacher.image : `${BASE_URL}${teacher.image}`} 
+                src={teacher.image_url}
                 alt={language === 'bn' ? teacher.name_bn : teacher.name_en} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
                 referrerPolicy="no-referrer"

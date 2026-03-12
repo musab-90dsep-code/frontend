@@ -47,7 +47,7 @@ const Events = () => {
             <div className="md:w-5/12 h-72 md:h-auto overflow-hidden relative">
               <div className="absolute inset-0 bg-primary-dark/10 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
               <img 
-                src={event.image.startsWith('http') ? event.image : `${BASE_URL}${event.image}`} 
+                src={event.image_url}
                 alt={language === 'bn' ? event.title_bn : event.title_en} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 referrerPolicy="no-referrer"

@@ -15,21 +15,37 @@ interface News {
     title: string;
     date: string;
     image_url: string;
-    summary?: string;
-    description?: string;
+    content?: string; // ব্যাকএন্ডে Field-এর নাম content
 }
 
 interface Event {
     id?: number;
-    date: string;
-    month: string;
-    title: string;
-    time: string;
-    location: string;
+    image_url: string;
+    title_en: string; // ব্যাকএন্ডের সাথে মিল রেখে
+    title_bn: string;
+    date_en: string;
+    date_bn: string;
+    time_en: string;
+    time_bn: string;
+    location_en: string;
+    location_bn: string;
+    desc_en: string;
+    desc_bn: string;
+    order: number;
 }
 
 interface SlideContent {
     image_url: string;
+}
+interface Teacher {
+    id?: number;
+    name_en: string;
+    name_bn: string;
+    role_en: string;
+    role_bn: string;
+    image_url: string;
+    bio_en: string;
+    bio_bn: string;
 }
 
 // মূল ডাটার স্ট্রাকচার
@@ -42,6 +58,7 @@ interface SiteData {
     stats: any[];
     images: any;
     titles: any;
+    teachers: Teacher[];
 }
 
 // Context-এর টাইপ
