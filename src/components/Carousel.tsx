@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, X } from 'lucide-react'; // PlayCircle এর বদলে Play ব্যবহার করছি
+import { Play, X } from 'lucide-react';
 
 // Swiper imports
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -16,6 +16,18 @@ const BASE_URL = API_URL ? API_URL.replace('/content/', '') : '';
 
 const Carousel = ({ videos }) => {
   const [selectedVideo, setSelectedVideo] = useState(null);
+
+  // ইউটিউব লিঙ্ক থেকে থাম্বনেইল বের করার ফাংশন
+  const getYouTubeThumbnail = (url) => {
+    if (!url) return "";
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    if (match && match[2].length === 11) {
+      // ইউটিউবের হাই-কোয়ালিটি থাম্বনেইল লিঙ্ক
+      return `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`;
+    }
+    return "https://via.placeholder.com/640x360?text=Video+Thumbnail"; // ব্যাকআপ ইমেজ
+  };
 
   const getEmbedUrl = (url) => {
     if (!url) return "";
@@ -57,9 +69,18 @@ const Carousel = ({ videos }) => {
               {/* ভিডিও থাম্বনেইল কন্টেইনার */}
               <div className="rounded-[2rem] overflow-hidden shadow-lg border border-gray-100 aspect-video relative group-hover:shadow-emerald-100 transition-all duration-500">
                 <img 
-                  src={video.image_url ? `${BASE_URL}${video.image_url}` : `https://picsum.photos/seed/${idx}/600/400`} 
+                  // যদি ডাটাবেজে image_url থাকে, তবে সেটা ব্যবহার করবে, না হলে ইউটিউব লিঙ্ক থেকে জেনারেট করবে
+                  src={video.image_url 
+                    ? (video.image_url.startsWith('http') ? video.image_url : `${BASE_URL}${video.image_url}`) 
+                    : getYouTubeThumbnail(video.video_url)} 
                   alt={video.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  // যদি HD ছবি (maxresdefault) না থাকে, তবে অটোমেটিক ছোট সাইজের ছবি (mqdefault) লোড করবে
+                  onError={(e) => {
+                    if (e.currentTarget.src.includes('maxresdefault')) {
+                      e.currentTarget.src = e.currentTarget.src.replace('maxresdefault', 'mqdefault');
+                    }
+                  }}
                 />
                 
                 {/* --- নতুন এবং উন্নত প্লে বাটন ডিজাইন --- */}

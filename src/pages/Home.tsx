@@ -24,6 +24,18 @@ const staggerContainer = {
   }
 };
 
+// Cloudinary URL-এ Transformation যুক্ত করার ফাংশন
+
+const getOptimizedHeroImage = (url: string) => {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  
+  // c_fill এর বদলে c_pad এবং b_blurred:400 দেওয়া হলো যাতে ছবি না কাটে
+  return url.replace(
+    '/upload/', 
+    '/upload/c_pad,w_1920,h_1080,b_auto,q_auto,f_auto/'
+  );
+};
+
 const Home = () => {
   const { t, i18n } = useLanguage();
   const { content, loading, error } = useData();
@@ -121,7 +133,7 @@ const Home = () => {
                 initial={{ scale: 1.1 }}
                 animate={{ scale: index === currentSlide ? 1 : 1.1 }}
                 transition={{ duration: 6, ease: "linear" }}
-                src={item.image_url}
+                src={getOptimizedHeroImage(item.image_url)}
                 alt="Madrasa Background"
                 className="w-full h-full object-cover transform-gpu will-change-transform"
                 referrerPolicy="no-referrer"

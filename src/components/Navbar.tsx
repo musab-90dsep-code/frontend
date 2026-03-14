@@ -6,7 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled,] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { language, toggleLanguage, t } = useLanguage();
   const isHomePage = location.pathname === "/";
@@ -23,7 +23,6 @@ const Navbar = () => {
 
   useEffect(() => {
     setIsOpen(false);
-
   }, [location]);
 
   useEffect(() => {
@@ -36,22 +35,37 @@ const Navbar = () => {
     <div className="fixed top-0 left-0 w-full z-50 transition-all duration-300 ">
       <nav
         className={`w-full max-w-7xl mx-auto transition-all duration-300 ${scrolled
-            ? 'bg-white/80 backdrop-blur-xl shadow-md py-3 mt-0 border-b border-slate-200'
-            : 'bg-transparent py-5'
+            ? 'bg-white/90 backdrop-blur-xl shadow-md py-2 mt-0 border-b border-slate-200'
+            : 'bg-transparent py-3'
           }`}
       >
-        <div className="px-6 sm:px-8">
+        <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
 
-            {/* 1. Logo */}
-            <Link to="/" className="flex items-center gap-3">
-              <div className="w-9 h-9 bg-primary-dark text-accent-gold flex items-center justify-center rounded-full font-bold">
-
+            {/* 1. Logo & Stacked Name (Compact Design) */}
+            <Link to="/" className="flex items-center gap-2 group">
+              {/* Logo Image */}
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm border border-transparent group-hover:border-emerald-200 transition-all overflow-hidden">
+                <img 
+                  src="https://res.cloudinary.com/dh2pky0qd/image/upload/v1773519655/d0ibqes49hjl7onb8950.jpg" 
+                  alt="Madrasa Logo" 
+                  className="w-full h-full object-contain p-0.5"
+                />
               </div>
-              <span className={`font-serif text-lg sm:text-xl font-bold transition-colors ${isTransparentAndDark ? 'text-white' : 'text-primary-dark'
+
+              {/* Stacked Text: ফন্ট সাইজ কমানো হয়েছে */}
+              <div className="flex flex-col justify-center mt-0.5">
+                <span className={`font-serif text-[13px] lg:text-[15px] font-bold leading-none whitespace-nowrap transition-colors duration-300 ${
+                  isTransparentAndDark ? 'text-emerald-400 drop-shadow-md' : 'text-emerald-700'
                 }`}>
-                {language === 'bn' ? 'মারকাযুল ফিকরী' : 'MARKAZUL FIKRI WAD DAWAH'}
-              </span>
+                  জামেয়া ইসলামিয়া দারুল উলূম
+                </span>
+                <span className={`text-[8px] lg:text-[9.5px] font-bold tracking-widest uppercase mt-1 whitespace-nowrap transition-colors duration-300 ${
+                  isTransparentAndDark ? 'text-white/90 drop-shadow-md' : 'text-primary-dark/80'
+                }`}>
+                  Jamia Islamia Darul Uloom
+                </span>
+              </div>
             </Link>
 
             {/* 2. Desktop Menu */}
@@ -65,8 +79,8 @@ const Navbar = () => {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full flex items-center justify-center ${isActive
-                      ? 'text-white' // একটিভ হলে সবসময় লেখা সাদা হবে যাতে মোশন ব্যাকগ্রাউন্ডে ফুটে ওঠে
+                    className={`relative px-3 py-1.5 text-[13px] font-medium transition-all duration-300 rounded-full flex items-center justify-center ${isActive
+                      ? 'text-white' 
                       : isTransparentAndDark
                         ? 'text-white/90 hover:text-white'
                         : 'text-slate-600 hover:text-primary-dark'
@@ -79,7 +93,7 @@ const Navbar = () => {
                           layoutId="nav-pill"
                           transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                           className="absolute inset-0 bg-primary-dark rounded-full"
-                          style={{ zIndex: 0 }} // z-index -10 এর বদলে 0 দিন
+                          style={{ zIndex: 0 }}
                         />
                       )}
                     </AnimatePresence>
@@ -91,39 +105,39 @@ const Navbar = () => {
               })}
             </div>
 
-            {/* 3. Right Side: Controls (Language + Contact + Mobile Menu) */}
-            <div className="flex items-center gap-2 sm:gap-4">
+            {/* 3. Right Side: Controls */}
+            <div className="flex items-center gap-2 sm:gap-3">
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-bold transition-all ${isTransparentAndDark
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-bold transition-all ${isTransparentAndDark
                   ? 'bg-white/10 text-white hover:bg-white/20'
                   : 'bg-slate-100 text-primary-dark hover:bg-slate-200'
                   }`}
               >
-                <span className="flex items-center gap-1.5">
-                  <Globe size={16} />
+                <span className="flex items-center gap-1">
+                  <Globe size={14} />
                   <span>{language === 'bn' ? 'EN' : 'বাং'}</span>
                 </span>
               </button>
 
-              {/* Contact Button (Desktop) */}
+              {/* Contact Button */}
               <Link
                 to="/contact"
-                className="hidden sm:flex items-center justify-center bg-accent-gold text-white px-6 py-2.5 rounded-full text-sm font-bold tracking-wide hover:bg-yellow-600 transition-all shadow-md"
+                className="hidden sm:flex items-center justify-center bg-accent-gold text-white px-4 py-1.5 rounded-full text-[13px] font-bold tracking-wide hover:bg-yellow-600 transition-all shadow-md"
               >
                 {t('nav.contact')}
               </Link>
 
-              {/* Mobile Menu Toggle (শুধুমাত্র এই একটি বাটন থাকবে) */}
+              {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`lg:hidden w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isTransparentAndDark
+                className={`lg:hidden w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isTransparentAndDark
                   ? 'bg-white/10 text-white hover:bg-white/20'
-                  : 'bg-bg-light text-primary-dark hover:bg-accent-sand'
+                  : 'bg-slate-100 text-primary-dark hover:bg-slate-200'
                   }`}
               >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
+                {isOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
             </div>
 
@@ -137,28 +151,28 @@ const Navbar = () => {
               initial={{ opacity: 0, height: 0, y: -10 }}
               animate={{ opacity: 1, height: 'auto', y: 0 }}
               exit={{ opacity: 0, height: 0, y: -10 }}
-              className="lg:hidden absolute top-[calc(100%+1rem)] left-0 w-full bg-white/95 backdrop-blur-xl border border-border-subtle shadow-2xl rounded-3xl overflow-hidden"
+              className="lg:hidden absolute top-[calc(100%+0.5rem)] left-0 w-full bg-white/95 backdrop-blur-xl border border-slate-200 shadow-2xl rounded-2xl overflow-hidden"
             >
-              <div className="px-6 py-6 flex flex-col gap-2">
+              <div className="px-5 py-4 flex flex-col gap-1.5">
                 {links.map((link) => {
                   const isActive = location.pathname === link.path;
                   return (
                     <Link
                       key={link.path}
                       to={link.path}
-                      className={`px-4 py-3 rounded-xl text-base font-medium transition-colors ${isActive
+                      className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${isActive
                         ? 'bg-primary-dark text-white'
-                        : 'text-text-main hover:bg-bg-light'
+                        : 'text-slate-700 hover:bg-slate-100'
                         }`}
                     >
                       {link.name}
                     </Link>
                   );
                 })}
-                <div className="pt-4 mt-2 border-t border-border-subtle">
+                <div className="pt-3 mt-2 border-t border-slate-200">
                   <Link
                     to="/contact"
-                    className="flex w-full justify-center bg-accent-gold text-white px-5 py-4 rounded-xl text-base font-bold shadow-md"
+                    className="flex w-full justify-center bg-accent-gold text-white px-5 py-3 rounded-xl text-sm font-bold shadow-md"
                   >
                     {t('nav.contact')}
                   </Link>

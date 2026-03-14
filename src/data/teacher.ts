@@ -40,5 +40,12 @@ export const teachers = [
     roleKey: 'teachers.t6Role',
     bioKey: 'teachers.t6Bio',
     image: "https://picsum.photos/seed/teacher6/300/400"
+  },
+  {
+    id: 't7',
+    nameKey: 'teachers.t7Name',
+    roleKey: 'teachers.t7Role',
+    bioKey: 'teachers.t7Bio',
+    image: "https://www.facebook.com/photo/?fbid=840922814721643&set=a.446283807518881&__tn__=%3C"
   }
 ];
