@@ -47,7 +47,7 @@ const Navbar = () => {
               {/* Logo Image */}
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm border border-transparent group-hover:border-emerald-200 transition-all overflow-hidden">
                 <img 
-                  src="https://res.cloudinary.com/dh2pky0qd/image/upload/v1773519655/d0ibqes49hjl7onb8950.jpg" 
+                  src=" https://scontent.fdac202-1.fna.fbcdn.net/v/t39.30808-6/334283593_917475899297987_1560262514775438053_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeFWU4XoaXkkzzs2yJTydPfIPj-7uHaBR8c-P7u4doFHx8FN-76NaktMnq3IxUofL1AlnmgtmkvymheK1ykkQNZh&_nc_ohc=uAQvHWkrY6gQ7kNvwH59J3_&_nc_oc=AdrQquUKR3qXa81aHo6WAvPFtZ16dekoNRKa05F9iD6sLi0HEPy0TOaBIDsZLC7isto&_nc_zt=23&_nc_ht=scontent.fdac202-1.fna&_nc_gid=cjITFtYr_SnxxJMdx5qq9A&_nc_ss=7a32e&oh=00_AfwZKTjuo4RYgIPBIG3NAf97Ysys0hEiZS4NmXDNU2SUVQ&oe=69C96F1E" 
                   alt="Madrasa Logo" 
                   className="w-full h-full object-contain p-0.5"
                 />
@@ -58,12 +58,12 @@ const Navbar = () => {
                 <span className={`font-serif text-[13px] lg:text-[15px] font-bold leading-none whitespace-nowrap transition-colors duration-300 ${
                   isTransparentAndDark ? 'text-emerald-400 drop-shadow-md' : 'text-emerald-700'
                 }`}>
-                  জামেয়া ইসলামিয়া দারুল উলূম
+                  মারকাযুল ফিকরি ওয়াদ দাওয়াহ 
                 </span>
                 <span className={`text-[8px] lg:text-[9.5px] font-bold tracking-widest uppercase mt-1 whitespace-nowrap transition-colors duration-300 ${
                   isTransparentAndDark ? 'text-white/90 drop-shadow-md' : 'text-primary-dark/80'
                 }`}>
-                  Jamia Islamia Darul Uloom
+                  Markazul Fikri wad Dawah
                 </span>
               </div>
             </Link>

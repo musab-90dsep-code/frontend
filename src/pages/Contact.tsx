@@ -101,7 +101,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="font-serif text-xl font-bold text-primary-dark mb-2">Call Us</h3>
-                <p className="text-text-muted font-light leading-relaxed">+1 (555) 123-4567<br />Mon-Fri, 9am-5pm</p>
+                <p className="text-text-muted font-light leading-relaxed">+8801929629508<br />Mon-Fri, 9am-5pm</p>
               </div>
             </div>
             <div className="bg-white p-8 rounded-xl shadow-sm border border-border-subtle flex items-start gap-6 hover:shadow-md transition-shadow">
@@ -110,7 +110,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="font-serif text-xl font-bold text-primary-dark mb-2">Email Us</h3>
-                <p className="text-text-muted font-light leading-relaxed">info@madrasaalnur.edu<br />admissions@madrasaalnur.edu</p>
+                <p className="text-text-muted font-light leading-relaxed"><br />admissions@madrasaalnur.edu</p>
               </div>
             </div>
           </div>

@@ -61,14 +61,14 @@ const Footer = () => {
                   <MapPin size={18} />
                 </div>
                 <span className="leading-relaxed mt-2">
-                  {content?.contact?.address || '123 Knowledge Way, Education City'}
+                  {content?.contact?.address || '১৫/১ কৃষ্টপুর,আলিয়া মাদ্রাসা মোড় চরপাড়া রোড সদর ময়মনসিংহ।'}
                 </span>
               </li>
               <li className="flex items-center space-x-4">
                 <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent-gold">
                   <Phone size={18} />
                 </div>
-                <span className="mt-1">{content?.contact?.phone || '+1 (555) 123-4567'}</span>
+                <span className="mt-1">{content?.contact?.phone || '+8801929629508'}</span>
               </li>
               <li className="flex items-center space-x-4">
                 <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent-gold">
