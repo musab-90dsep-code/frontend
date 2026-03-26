@@ -232,7 +232,7 @@ const About = () => {
           <div className="flex flex-col items-center gap-5 pt-6 border-t border-gray-100 w-3/4 mx-auto">
             <div className="relative">
               <img 
-                src="https://picsum.photos/seed/principal/150/150" 
+                src="https://res.cloudinary.com/dh2pky0qd/image/upload/v1774432758/eqm2sicmqc0wpef95hse.jpg" 
                 alt="Principal" 
                 loading="lazy" decoding="async"
                 className="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover shadow-xl border-4 border-white transform hover:scale-105 transition-transform duration-500"
