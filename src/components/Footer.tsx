@@ -113,10 +113,10 @@ const Footer = () => {
               
               <div className="text-sm font-light space-y-1">
                 <p className="font-bold">
-                  &copy; Developed by Markazul Fikri {new Date().getFullYear()} v1.0.0
+                  &copy; Developed by MUSAB KHAN {new Date().getFullYear()} v1.0.0
                 </p>
                 <p className="text-white/70">
-                  Developed and maintained by the IT Department
+                  Developed and maintained by the MUSAB KHAN
                 </p>
               </div>
             </div>
