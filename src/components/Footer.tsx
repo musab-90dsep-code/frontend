@@ -1,106 +1,134 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Facebook, Twitter, Instagram, ArrowRight, Lock } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Rss, Lock } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { useData } from '../context/DataContext'; // আপনার ডাটা কনটেক্সট ইমপোর্ট করা হলো
+import { useData } from '../context/DataContext';
 
 const Footer = () => {
   const { t, language } = useLanguage();
-  const { content } = useData(); // এখানে ডাটা আগে থেকেই ফেচ করা আছে
+  const { content } = useData();
 
-  // ১. আপনার .env এর VITE_API_BASE_URL ব্যবহার করে সরাসরি এডমিন লিঙ্ক
-  // যেহেতু আপনি ইতিমধ্যেই ডাটা কনটেক্সটে এটি ব্যবহার করেছেন, তাই এখানে নতুন কোনো লজিক লাগবে না।
-  const ADMIN_URL = `${import.meta.env.VITE_API_BASE_URL.replace('/content/', '')}/admin/`;
+  const ADMIN_URL = `${import.meta.env.VITE_API_BASE_URL?.replace('/content/', '') || ''}/admin/`;
 
   return (
-    <footer className="bg-primary-dark text-white pt-24 pb-12 relative overflow-hidden">
-      {/* Decorative Background */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-light rounded-full blur-[120px] opacity-20 -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
-          
-          {/* Brand Column */}
-          <div className="md:col-span-5 space-y-8">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-accent-gold text-primary-dark flex items-center justify-center rounded-full font-serif text-2xl font-bold shadow-lg">
-                M
-              </div>
-              <h3 className="font-serif text-3xl font-bold text-white tracking-tight uppercase">
-                {language === 'bn' ? 'মারকাযুল ফিকরী' : 'MARKAZUL FIKRI'}
-              </h3>
-            </div>
-            {/* ডাইনামিক ডেসক্রিপশন */}
-            <p className="text-slate-300 text-lg leading-relaxed max-w-md font-light">
-              {content?.footer?.description || t('footer.desc')}
-            </p>
-            <div className="flex space-x-4 pt-4">
-               {/* সোশ্যাল লিঙ্কগুলো আপনার ডাটা থেকে আসতে পারে */}
-               <a href={content?.social?.facebook || "#"} className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent-gold hover:bg-accent-gold hover:text-primary-dark transition-all duration-300"><Facebook size={20} /></a>
-               <a href={content?.social?.twitter || "#"} className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent-gold hover:bg-accent-gold hover:text-primary-dark transition-all duration-300"><Twitter size={20} /></a>
-               <a href={content?.social?.instagram || "#"} className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-accent-gold hover:bg-accent-gold hover:text-primary-dark transition-all duration-300"><Instagram size={20} /></a>
-            </div>
-          </div>
+    <div className="w-full flex flex-col">
+      {/* Top Banner (Honor of Knowledge and Place) */}
+      <div className="bg-white py-6">
+        <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-4">
+          <div className="h-[2px] bg-[#116843] flex-1 max-w-[200px] opacity-30"></div>
+          <h2 className="text-[#116843] text-xl md:text-2xl font-bold font-serif text-center uppercase tracking-wider">
+            {language === 'bn' ? 'জ্ঞান ও স্থানের মর্যাদা' : 'Honor of Knowledge and Place'}
+          </h2>
+          <div className="h-[2px] bg-[#116843] flex-1 max-w-[200px] opacity-30"></div>
+        </div>
+      </div>
 
-          {/* Quick Links */}
-          <div className="md:col-span-3">
-            <h4 className="font-sans text-sm font-bold tracking-[0.2em] uppercase text-accent-gold mb-8">{t('footer.academics')}</h4>
-            <ul className="space-y-4 text-base text-slate-300 font-light">
-              <li><Link to="/about" className="hover:text-white transition-colors flex items-center gap-3 group"><ArrowRight size={14} className="text-accent-gold group-hover:translate-x-1 transition-transform" /> {t('footer.history')}</Link></li>
-              <li><Link to="/teachers" className="hover:text-white transition-colors flex items-center gap-3 group"><ArrowRight size={14} className="text-accent-gold group-hover:translate-x-1 transition-transform" /> {t('footer.faculty')}</Link></li>
-              <li><Link to="/schedule" className="hover:text-white transition-colors flex items-center gap-3 group"><ArrowRight size={14} className="text-accent-gold group-hover:translate-x-1 transition-transform" /> {t('footer.schedule')}</Link></li>
-              <li><Link to="/events" className="hover:text-white transition-colors flex items-center gap-3 group"><ArrowRight size={14} className="text-accent-gold group-hover:translate-x-1 transition-transform" /> {t('footer.events')}</Link></li>
-            </ul>
-          </div>
-
-          {/* Contact Info - DataContext থেকে আসছে */}
-          <div className="md:col-span-4">
-            <h4 className="font-sans text-sm font-bold tracking-[0.2em] uppercase text-accent-gold mb-8">{t('footer.contact')}</h4>
-            <ul className="space-y-6 text-base text-slate-300 font-light">
-              <li className="flex items-start space-x-4">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent-gold">
-                  <MapPin size={18} />
-                </div>
-                <span className="leading-relaxed mt-2">
-                  {content?.contact?.address || '১৫/১ কৃষ্টপুর,আলিয়া মাদ্রাসা মোড় চরপাড়া রোড সদর ময়মনসিংহ।'}
-                </span>
-              </li>
-              <li className="flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent-gold">
-                  <Phone size={18} />
-                </div>
-                <span className="mt-1">{content?.contact?.phone || '+8801929629508'}</span>
-              </li>
-              <li className="flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 text-accent-gold">
-                  <Mail size={18} />
-                </div>
-                <span className="mt-1">{content?.contact?.email || 'info@madrasaalnur.edu'}</span>
-              </li>
-            </ul>
-          </div>
+      {/* Main Footer Section */}
+      <footer className="bg-[#0b4d36] text-white pt-12 pb-8 relative overflow-hidden">
+        
+        {/* Subtle Background Pattern (Right Side) */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] opacity-10 pointer-events-none">
+          <svg viewBox="0 0 100 100" className="w-full h-full text-white fill-current">
+            <path d="M50 0 L100 50 L50 100 L0 50 Z" />
+            <path d="M25 25 L75 25 L75 75 L25 75 Z" fill="none" stroke="currentColor" strokeWidth="2" />
+          </svg>
         </div>
 
-        {/* Bottom Section */}
-<div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400 font-light">
-  <p>&copy; {new Date().getFullYear()} {language === 'bn' ? 'মারকাযুল ফিকরী' : 'MARKAZUL FIKRI'}. {t('footer.rights')}</p>
-  
-  <div className="flex space-x-8 mt-6 md:mt-0 items-center">
-    {/* অ্যাডমিন বাটনটিকে সবার বামে নিয়ে আসা হয়েছে এবং গ্যাপ বাড়ানো হয়েছে */}
-    <a 
-      href={ADMIN_URL} 
-      target="_blank" 
-      rel="noopener noreferrer" 
-      className="flex items-center gap-2 hover:text-accent-gold transition-colors opacity-60 hover:opacity-100 pr-6 border-r border-white/10"
-    >
-      <Lock size={12} /> {language === 'bn' ? 'অ্যাডমিন' : 'Admin'}
-    </a>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          {/* 3-Column Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
 
-    <a href="#" className="hover:text-white transition-colors">{t('footer.privacy')}</a>
-    <a href="#" className="hover:text-white transition-colors">{t('footer.terms')}</a>
-  </div>
-</div>
-      </div>
-    </footer>
+            {/* Column 1: Important Links */}
+            <div>
+              <h3 className="text-lg font-bold mb-4 pb-2 border-b border-white/30 w-full max-w-xs !text-white">
+                {language === 'bn' ? 'গুরুত্বপূর্ণ লিংক' : 'Important Links'}
+              </h3>
+              <ul className="space-y-3 text-sm font-light">
+                <li><Link to="/privacy-policy" className="hover:text-[#cfa25e] transition-colors">{t('footer.privacy') || 'Privacy Policy'}</Link></li>
+                <li><Link to="/terms" className="hover:text-[#cfa25e] transition-colors">{t('footer.terms') || 'Terms Of Use'}</Link></li>
+                <li><Link to="/contact" className="hover:text-[#cfa25e] transition-colors">{t('footer.contact') || 'Contact Us'}</Link></li>
+              </ul>
+            </div>
+
+            {/* Column 2: Social Media */}
+            <div>
+              <h3 className="text-lg font-bold mb-4 pb-2 border-b border-white/30 w-full max-w-xs !text-white">
+                {language === 'bn' ? 'সোশ্যাল মিডিয়া' : 'Social Media'}
+              </h3>
+              <div className="flex gap-3">
+                <a href={content?.social?.twitter || "#"} className="w-10 h-10 border border-white/50 rounded flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Twitter size={20} />
+                </a>
+                <a href={content?.social?.youtube || "#"} className="w-10 h-10 border border-white/50 rounded flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Youtube size={20} />
+                </a>
+                <a href={content?.social?.facebook || "#"} className="w-10 h-10 border border-white/50 rounded flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Facebook size={20} />
+                </a>
+              </div>
+            </div>
+
+            {/* Column 3: Mobile Apps */}
+            <div>
+              <h3 className="text-lg font-bold mb-4 pb-2 border-b border-white/30 w-full max-w-xs !text-white">
+                {language === 'bn' ? 'মোবাইল অ্যাপস' : 'Mobile Apps'}
+              </h3>
+              <div className="flex gap-4">
+                {/* Google Play Placeholder */}
+                <a href="#" className="flex bg-black text-white border border-gray-600 rounded px-3 py-1.5 items-center gap-2 w-[130px] hover:bg-gray-900 transition-colors">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Play Store" className="w-5 h-5" />
+                  <div className="flex flex-col text-left">
+                    <span className="text-[9px] leading-tight text-gray-300" dir="rtl">احصل عليه من</span>
+                    <span className="text-xs font-bold leading-tight">Google Play</span>
+                  </div>
+                </a>
+
+                {/* App Store Placeholder */}
+                <a href="#" className="flex bg-black text-white border border-gray-600 rounded px-3 py-1.5 items-center gap-2 w-[130px] hover:bg-gray-900 transition-colors">
+                  <svg viewBox="0 0 384 512" className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
+                  </svg>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[9px] leading-tight text-gray-300" dir="rtl">تنزيل من</span>
+                    <span className="text-xs font-bold leading-tight">App Store</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Section (Copyright & Logo) */}
+          <div className="flex flex-col md:flex-row justify-between items-end gap-6 mt-12">
+            
+            <div className="flex flex-col gap-4 w-full md:w-auto">
+              <div className="flex items-center gap-4">
+                <a href="#" className="hover:underline text-sm font-bold flex items-center gap-2">
+                  <Rss size={16} /> RSS
+                </a>
+                <a href={ADMIN_URL} target="_blank" rel="noopener noreferrer" className="hover:underline text-sm font-bold flex items-center gap-2 opacity-80 hover:opacity-100">
+                  <Lock size={16} /> Admin
+                </a>
+              </div>
+              
+              <div className="text-sm font-light space-y-1">
+                <p className="font-bold">
+                  &copy; Developed by Markazul Fikri {new Date().getFullYear()} v1.0.0
+                </p>
+                <p className="text-white/70">
+                  Developed and maintained by the IT Department
+                </p>
+              </div>
+            </div>
+
+            {/* Bottom Right Logo */}
+        
+
+          </div>
+          
+        </div>
+      </footer>
+    </div>
   );
 };
 

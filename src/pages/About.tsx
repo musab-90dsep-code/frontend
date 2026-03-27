@@ -60,7 +60,7 @@ const About = () => {
           >
             <div className="aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative group">
               <img 
-                src="https://picsum.photos/seed/history/1200/900" 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Darul_Uloom_Deoband.jpg/250px-Darul_Uloom_Deoband.jpg" 
                 alt="Madrasa History" 
                 loading="lazy" decoding="async"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 transform-gpu will-change-transform"
