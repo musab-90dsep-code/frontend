@@ -90,7 +90,7 @@ export const translations = {
       visionDesc: 'To be a leading institution of Islamic learning that produces exemplary individuals who embody the prophetic character and contribute to the betterment of humanity through service, leadership, and excellence.',
       principalTitle: "Principal's Message",
       principalQuote: 'Education is not merely the accumulation of facts, but the illumination of the heart. At Madrasa Al-Nur, we strive to kindle this light in every student, guiding them towards a path of righteousness and success in both worlds.',
-      principalName: 'Sheikh Abdullah Rahman',
+      principalName: 'Mufti Atiqur Rahman Qasemi',
       principalRole: 'Principal & Director'
     },
     teachers: {
@@ -204,8 +204,8 @@ export const translations = {
   },
   bn: {
     nav: {
-      home: 'নীড়পাতা',
-      about: 'আমাদের সম্পর্কে',
+      home: 'মূলপাতা',
+      about: 'পরিচিতি',
       faculty: 'শিক্ষকমণ্ডলী',
       academics: 'শিক্ষাক্রম',
       admissions: 'ভর্তি',
@@ -293,7 +293,7 @@ export const translations = {
       visionDesc: 'ইসলামিক শিক্ষার একটি শীর্ষস্থানীয় প্রতিষ্ঠান হওয়া যা অনুকরণীয় ব্যক্তিদের তৈরি করে যারা নবীর চরিত্রকে ধারণ করে এবং সেবা, নেতৃত্ব এবং শ্রেষ্ঠত্বের মাধ্যমে মানবতার কল্যাণে অবদান রাখে।',
       principalTitle: "অধ্যক্ষের বাণী",
       principalQuote: 'শিক্ষা কেবল তথ্যের সঞ্চয় নয়, বরং অন্তরের আলোকিতকরণ। মাদ্রাসা আন-নূরে, আমরা প্রতিটি শিক্ষার্থীর মধ্যে এই আলো প্রজ্বলিত করার চেষ্টা করি, তাদের উভয় জগতে ধার্মিকতা এবং সাফল্যের পথে পরিচালিত করি।',
-      principalName: 'শায়খ আব্দুল্লাহ রহমান',
+      principalName: 'মুফতি আতিকুর রহমান কাসেমী',
       principalRole: 'অধ্যক্ষ ও পরিচালক'
     },
     teachers: {
