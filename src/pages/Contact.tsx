@@ -123,7 +123,7 @@ const Contact = () => {
             className="bg-slate-100 rounded-2xl overflow-hidden h-72 relative shadow-inner border border-border-subtle"
           >
             <img 
-              src="https://picsum.photos/seed/map/800/600?grayscale" ``
+              src="https://picsum.photos/seed/map/800/600?grayscale" 
               alt="Location Map" 
               className="w-full h-full object-cover opacity-60 mix-blend-multiply"
               referrerPolicy="no-referrer"
