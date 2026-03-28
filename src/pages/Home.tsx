@@ -6,6 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import Carousel from '../components/Carousel';
 import Typewriter from 'typewriter-effect';
 import { useData } from '../context/DataContext';
+import React from 'react';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || "";
 const BASE_URL = API_URL ? new URL(API_URL).origin : '';

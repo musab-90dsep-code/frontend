@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
-
 // ১. ডাটার টাইপগুলো ডিক্লেয়ার করা (TypeScript-এর জন্য)
 interface Notice {
     id?: number;
@@ -15,13 +14,13 @@ interface News {
     title: string;
     date: string;
     image_url: string;
-    content?: string; // ব্যাকএন্ডে Field-এর নাম content
+    content?: string;
 }
 
 interface Event {
     id?: number;
     image_url: string;
-    title_en: string; // ব্যাকএন্ডের সাথে মিল রেখে
+    title_en: string;
     title_bn: string;
     date_en: string;
     date_bn: string;
@@ -85,8 +84,16 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 if (!response.ok) {
                     throw new Error('Failed to fetch website content');
                 }
-                const data = await response.json();
-                setContent(data);
+                const rawData = await response.json();
+
+                // --- HTTPS Universal Fix শুরু ---
+                // ডাটাবেজ থেকে আসা সব 'http://' কে 'https://' এ রূপান্তর করা
+                const securedData = JSON.parse(
+                    JSON.stringify(rawData).replace(/http:\/\/res\.cloudinary\.com/g, "https://res.cloudinary.com")
+                );
+                // --- HTTPS Universal Fix শেষ ---
+
+                setContent(securedData); // এখন নিরাপদ ডাটা স্টেট-এ সেট হবে
             } catch (err: any) {
                 setError(err.message || 'Something went wrong!');
             } finally {
@@ -104,11 +111,11 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     );
 };
 
-// ৪. কাস্টম হুক (যাতে অন্য পেজে সহজেই ডাটা ব্যবহার করা যায়)
+// ৪. কাস্টম হুক (যাতে অন্য পেজে সহজেই ডাটা ব্যবহার করা যায়)
 export const useData = () => {
     const context = useContext(DataContext);
     if (context === undefined) {
         throw new Error('useData must be used within a DataProvider');
     }
     return context;
-};
+};``
