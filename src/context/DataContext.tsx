@@ -69,6 +69,10 @@ interface DataContextType {
 
 // ২. Context তৈরি করা
 const DataContext = createContext<DataContextType | undefined>(undefined);
+export const ensureHttps = (url: string) => {
+  if (!url) return '';
+  return url.replace(/^http:\/\//i, 'https://');
+};
 
 // ৩. Provider কম্পোনেন্ট (এটি আপনার পুরো অ্যাপকে র‍্যাপ করবে)
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Calendar, Bell, MapPin, Award, GraduationCap, BookOpen, Users, Clock, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -25,22 +25,43 @@ const staggerContainer = {
   }
 };
 
-// Cloudinary URL-এ Transformation যুক্ত করার ফাংশন
+const ensureHttps = (url: string) => {
+  if (!url) return '';
+  return url.replace(/^http:\/\//i, 'https://');
+};
+
+// ১. Hero Image এর জন্য (বড় ছবি)
 const getOptimizedHeroImage = (url: string) => {
-  if (!url || !url.includes('cloudinary.com')) return url;
-  return url.replace(
+  let secureUrl = ensureHttps(url);
+  if (!secureUrl || !secureUrl.includes('cloudinary.com')) return secureUrl;
+
+  const isMobile = window.innerWidth < 768;
+  const width = isMobile ? '800' : '1920';
+  const height = isMobile ? '600' : '1080';
+
+  return secureUrl.replace(
     '/upload/', 
-    '/upload/c_pad,w_1920,h_1080,b_auto,q_auto,f_auto/'
+    `/upload/c_fill,g_auto,w_${width},h_${height},q_auto:low,f_auto/` 
+  );
+};
+
+// ২. News এবং Events এর জন্য (ছোট/মাঝারি ছবি)
+const getOptimizedImage = (url: string, width: number = 600) => {
+  let secureUrl = ensureHttps(url);
+  if (!secureUrl || !secureUrl.includes('cloudinary.com')) return secureUrl;
+
+  return secureUrl.replace(
+    '/upload/', 
+    `/upload/c_scale,w_${width},q_auto:low,f_auto/` 
   );
 };
 
 // --- Fallback Image Handler ---
-// এটি পুরনো ফোনের জন্য ছবি ফেইল করলে কল হবে
 const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
   const target = e.target as HTMLImageElement;
-  target.loading = "eager"; // লেজি লোডিং অফ করে দিবে
+  target.loading = "eager";
   if (target.src.includes('f_auto')) {
-    target.src = target.src.replace('f_auto', 'f_jpg'); // WebP থেকে JPG তে ফোর্স করবে
+    target.src = target.src.replace('f_auto', 'f_jpg');
   }
 };
 
@@ -88,18 +109,18 @@ const Home = () => {
   return (
     <div className="space-y-24 md:space-y-32 pb-24 bg-slate-50/30">
 
-      {/* Notice Modal (আগের মতোই থাকবে) */}
+      {/* Notice Modal */}
       <AnimatePresence>
         {selectedNotice && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-primary-dark/70 backdrop-blur-md p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-primary-dark/80 md:backdrop-blur-md p-4 md:transform-gpu"
             onClick={() => setSelectedNotice(null)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 30 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 30 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-white p-8 md:p-10 rounded-3xl max-w-lg w-full shadow-2xl relative overflow-hidden transform-gpu will-change-transform"
+              className="bg-white p-8 md:p-10 rounded-3xl max-w-lg w-full shadow-2xl relative overflow-hidden md:will-change-transform"
               onClick={e => e.stopPropagation()}
             >
               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-accent-gold to-yellow-500"></div>
@@ -126,7 +147,7 @@ const Home = () => {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden md:transform-gpu">
         <div className="absolute inset-0 z-0 overflow-hidden bg-primary-dark">
           {content.contents.map((item: any, index: number) => (
             <div
@@ -139,12 +160,12 @@ const Home = () => {
                 transition={{ duration: 6, ease: "linear" }}
                 src={getOptimizedHeroImage(item.image_url)}
                 alt="Madrasa Background"
-                className="w-full h-full object-cover transform-gpu will-change-transform"
+                className="w-full h-full object-cover md:transform-gpu md:will-change-transform"
                 referrerPolicy="no-referrer"
                 decoding="async"
-                onError={handleImageError} // ১. Hero ইমেজে ফলব্যাক যোগ করা হলো
+                onError={handleImageError} 
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-primary-dark/80 via-primary-dark/50 to-primary-dark/95 mix-blend-multiply transform-gpu"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-primary-dark/80 via-primary-dark/50 to-primary-dark/95 mix-blend-multiply"></div>
             </div>
           ))}
 
@@ -162,11 +183,11 @@ const Home = () => {
           )}
         </div>
 
-        {/* Hero Text Content (আগের মতোই থাকবে) */}
-        <div className="relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center mt-10">
+        {/* Hero Text Content */}
+        <div className="relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center mt-10 md:transform-gpu">
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: "easeOut" }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold !text-white mb-6 uppercase tracking-tight leading-tight drop-shadow-2xl will-change-transform"
+            className="text-4xl md:text-6xl lg:text-7xl font-bold !text-white mb-6 uppercase tracking-tight leading-tight drop-shadow-2xl md:will-change-transform"
           >
             <Typewriter
               key={t('home.title1')}
@@ -179,7 +200,7 @@ const Home = () => {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4 }}
-            className="text-lg md:text-2xl text-gray-200 font-medium max-w-3xl leading-relaxed drop-shadow-md will-change-transform"
+            className="text-lg md:text-2xl text-gray-200 font-medium max-w-3xl leading-relaxed drop-shadow-md md:will-change-transform"
           >
             {t('home.subtitle')}
           </motion.p>
@@ -188,7 +209,7 @@ const Home = () => {
         {/* Scroll Down Indicator */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-white/70 will-change-transform"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-white/70 md:transform-gpu"
         >
           <span className="text-xs uppercase tracking-widest font-semibold">Scroll</span>
           <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
@@ -197,16 +218,16 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Stats Section (আগের মতোই থাকবে) */}
+      {/* Stats Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-30 mb-20">
         <motion.div
           variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px", amount: 0.1 }}
-          className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.08)] border border-white p-8 md:p-12 grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4 transform-gpu will-change-transform"
+          className="bg-white/95 rounded-[2.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.08)] border border-white p-8 md:p-12 grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4 md:transform-gpu"
         >
           {content?.stats?.map((stat: any, i: number) => (
             <motion.div
               variants={fadeInUp} whileHover={{ y: -8, scale: 1.02 }} key={i}
-              className="text-center flex flex-col items-center gap-4 lg:border-r border-gray-200/60 last:border-0 will-change-transform"
+              className="text-center flex flex-col items-center gap-4 lg:border-r border-gray-200/60 last:border-0 md:will-change-transform"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner mb-2 transform rotate-3 hover:rotate-0 transition-transform">
                 {statsIcons[i]}
@@ -222,7 +243,7 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Notices Section (আগের মতোই থাকবে) */}
+      {/* Notices Section */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <span className="text-accent-gold font-bold uppercase tracking-widest text-xs mb-2 block">Important Announcements</span>
@@ -232,10 +253,8 @@ const Home = () => {
 
         <motion.div 
           initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }} transition={{ delay: 0.1 }}
-          className="bg-gradient-to-br from-primary-dark to-emerald-900 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col p-1.5 relative transform-gpu will-change-transform"
+          className="bg-gradient-to-br from-primary-dark to-emerald-900 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col p-1.5 relative md:transform-gpu"
         >
-          <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 transform-gpu"></div>
-          
           <div className="bg-white rounded-[2.2rem] flex flex-col relative z-10 overflow-hidden">
             <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
               <div className="flex items-center gap-4">
@@ -254,7 +273,7 @@ const Home = () => {
                 {content.notices.map((notice: any, idx: number) => (
                   <motion.div 
                     whileHover={{ x: 5, scale: 1.01 }} key={idx} onClick={() => setSelectedNotice(notice)} 
-                    className="group flex gap-5 p-5 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer transform-gpu will-change-transform"
+                    className="group flex gap-5 p-5 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer md:will-change-transform"
                   >
                     <div className="w-2 h-2 mt-2 rounded-full bg-accent-gold shrink-0 shadow-[0_0_8px_rgba(212,175,55,0.8)] group-hover:scale-150 transition-transform group-hover:bg-emerald-500"></div>
                     <div>
@@ -276,7 +295,7 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }}
-          className="flex justify-between items-end mb-10 will-change-transform"
+          className="flex justify-between items-end mb-10 md:transform-gpu"
         >
           <div>
             <span className="text-accent-gold font-bold uppercase tracking-widest text-xs mb-2 block">Stay Updated</span>
@@ -291,19 +310,19 @@ const Home = () => {
           {/* Left Side: Latest News */}
           <motion.div
             initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "50px" }} transition={{ duration: 0.6 }}
-            className="lg:col-span-7 will-change-transform"
+            className="lg:col-span-7 md:transform-gpu"
           >
             {content?.news?.length > 0 && (
-              <div className="group rounded-[2rem] p-5 flex flex-col w-full bg-white shadow-lg border border-gray-100 hover:shadow-xl transition-all h-full transform-gpu min-h-[450px]">
+              <div className="group rounded-[2rem] p-5 flex flex-col w-full bg-white shadow-lg border border-gray-100 hover:shadow-xl transition-all h-full min-h-[450px]">
                 <div className="rounded-2xl overflow-hidden mb-6 relative h-64 sm:h-80 w-full bg-gray-100 shrink-0">
                   <motion.img
                     key={content.news[0].id}
-                    src={content.news[0].image_url}
+                    src={getOptimizedImage(content.news[0].image_url, 800)} // অপটিমাইজ করা হলো
                     alt={content.news[0].title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 transform-gpu will-change-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 md:will-change-transform"
                     loading="lazy"
                     decoding="async"
-                    onError={handleImageError} // ২. Latest News ইমেজে ফলব্যাক যোগ করা হলো
+                    onError={handleImageError} 
                   />
                   <div className="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider shadow-lg">
                     Latest News
@@ -336,16 +355,16 @@ const Home = () => {
                   <motion.div
                     key={newsItem.id || index}
                     initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.2, type: "tween", ease: "easeInOut" }}
-                    className="group border border-gray-100 rounded-2xl p-4 flex items-center gap-5 bg-white shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all transform-gpu will-change-transform"
+                    className="group border border-gray-100 rounded-2xl p-4 flex items-center gap-5 bg-white shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all md:transform-gpu md:will-change-transform"
                   >
                     <div className="w-32 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100 relative shadow-inner">
                       <img 
-                        src={newsItem.image_url} 
+                        src={getOptimizedImage(newsItem.image_url, 300)} // অপটিমাইজ করা হলো
                         alt={newsItem.title} 
                         loading="lazy" 
                         decoding="async" 
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 transform-gpu will-change-transform" 
-                        onError={handleImageError} // ৩. Small News ইমেজে ফলব্যাক যোগ করা হলো
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                        onError={handleImageError} 
                       />
                     </div>
                     <div className="grow min-w-0 pr-2">
@@ -362,7 +381,7 @@ const Home = () => {
               </AnimatePresence>
             </div>
 
-            {/* Pagination Controls (আগের মতোই থাকবে) */}
+            {/* Pagination Controls */}
             <div className="flex justify-between items-center mt-6 px-2">
               <div className="flex gap-2">
                 {Array.from({ length: Math.ceil(Math.max(0, content.news.length - 1) / ITEMS_PER_PAGE) }).map((_, i) => (
@@ -382,12 +401,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Video Gallery Section (আগের মতোই থাকবে) */}
+      {/* Video Gallery Section */}
       <section className="bg-gradient-to-b from-transparent via-emerald-50/50 to-transparent overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }}
-            className="text-center mb-16 relative will-change-transform"
+            className="text-center mb-16 relative md:transform-gpu"
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-widest mb-4">
               <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
@@ -404,11 +423,8 @@ const Home = () => {
 
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "50px" }} transition={{ duration: 0.6 }}
-            className="relative transform-gpu will-change-transform"
+            className="relative md:transform-gpu md:will-change-transform"
           >
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-emerald-200/30 blur-3xl rounded-full -z-10 transform-gpu"></div>
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-accent-gold/20 blur-3xl rounded-full -z-10 transform-gpu"></div>
-
             <div className="rounded-[2.5rem] overflow-hidden shadow-2xl shadow-emerald-900/5 bg-white p-3 border border-white">
               {content?.videos?.length > 0 && <Carousel videos={content.videos} />}
             </div>
@@ -429,7 +445,7 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }}
-          className="flex flex-col items-center justify-center text-center mb-12 gap-4 border-b border-gray-200 pb-8 will-change-transform"
+          className="flex flex-col items-center justify-center text-center mb-12 gap-4 border-b border-gray-200 pb-8 md:transform-gpu"
         >
           <div>
             <span className="text-accent-gold font-bold uppercase tracking-widest text-xs mb-2 block">Join Us</span>
@@ -446,14 +462,14 @@ const Home = () => {
 
         <motion.div
           variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px", amount: 0.1 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:transform-gpu"
         >
           {content?.events?.slice(0, 2).map((event: any) => {
             const isBn = i18n?.language === 'bn';
             return (
               <motion.div
                 variants={fadeInUp} key={event.id}
-                className="flex flex-col sm:flex-row bg-white rounded-3xl overflow-hidden shadow-lg shadow-gray-100 border border-gray-100 group hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 transform-gpu will-change-transform"
+                className="flex flex-col sm:flex-row bg-white rounded-3xl overflow-hidden shadow-lg shadow-gray-100 border border-gray-100 group hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 md:will-change-transform"
               >
                 <div className="sm:w-2/5 h-56 sm:h-auto overflow-hidden relative">
                   <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-sm text-primary-dark px-4 py-2 rounded-xl font-bold text-sm shadow-lg text-center leading-tight">
@@ -461,14 +477,14 @@ const Home = () => {
                     {isBn ? event.date_bn.split(' ')[1] : event.date_en.split(' ')[1]}
                   </div>
                   <img 
-                    src={event.image_url} 
+                    src={getOptimizedImage(event.image_url, 600)} // অপটিমাইজ করা হলো
                     alt="Event" 
                     loading="lazy" 
                     decoding="async" 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform" 
-                    onError={handleImageError} // ৪. Events ইমেজে ফলব্যাক যোগ করা হলো
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    onError={handleImageError} 
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/60 to-transparent sm:bg-none sm:group-hover:bg-primary-dark/10 transition-colors duration-500 transform-gpu"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/60 to-transparent sm:bg-none sm:group-hover:bg-primary-dark/10 transition-colors duration-500"></div>
                 </div>
 
                 <div className="sm:w-3/5 p-6 md:p-8 flex flex-col justify-center bg-white">
