@@ -30,13 +30,13 @@ const ensureHttps = (url: string) => {
   return url.replace(/^http:\/\//i, 'https://');
 };
 
-// ১. Hero Image এর জন্য (বড় ছবি)
+// ১. Hero Image এর জন্য (একদম নরমাল স্ট্যান্ডার্ড সাইজ)
 const getOptimizedHeroImage = (url: string) => {
   let secureUrl = ensureHttps(url);
   if (!secureUrl || !secureUrl.includes('cloudinary.com')) return secureUrl;
 
   const isMobile = window.innerWidth < 768;
-  const width = isMobile ? '800' : '1920';
+  const width = isMobile ? '800' : '1920'; 
   const height = isMobile ? '600' : '1080';
 
   return secureUrl.replace(
@@ -63,7 +63,7 @@ const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
   if (target.src.includes('f_auto')) {
     target.src = target.src.replace('f_auto', 'f_jpg');
   }
-};
+};``
 
 const Home = () => {
   const { t, i18n } = useLanguage();
@@ -317,7 +317,7 @@ const Home = () => {
                 <div className="rounded-2xl overflow-hidden mb-6 relative h-64 sm:h-80 w-full bg-gray-100 shrink-0">
                   <motion.img
                     key={content.news[0].id}
-                    src={getOptimizedImage(content.news[0].image_url, 800)} // অপটিমাইজ করা হলো
+                    src={getOptimizedImage(content.news[0].image_url, 800)} 
                     alt={content.news[0].title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 md:will-change-transform"
                     loading="lazy"
@@ -359,7 +359,7 @@ const Home = () => {
                   >
                     <div className="w-32 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100 relative shadow-inner">
                       <img 
-                        src={getOptimizedImage(newsItem.image_url, 300)} // অপটিমাইজ করা হলো
+                        src={getOptimizedImage(newsItem.image_url, 300)} 
                         alt={newsItem.title} 
                         loading="lazy" 
                         decoding="async" 
@@ -477,7 +477,7 @@ const Home = () => {
                     {isBn ? event.date_bn.split(' ')[1] : event.date_en.split(' ')[1]}
                   </div>
                   <img 
-                    src={getOptimizedImage(event.image_url, 600)} // অপটিমাইজ করা হলো
+                    src={getOptimizedImage(event.image_url, 600)} 
                     alt="Event" 
                     loading="lazy" 
                     decoding="async" 
