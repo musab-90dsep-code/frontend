@@ -62,7 +62,7 @@ const Footer = () => {
                 <a href={content?.social?.youtube || "#"} className="w-10 h-10 border border-white/50 rounded flex items-center justify-center hover:bg-white/10 transition-colors">
                   <Youtube size={20} />
                 </a>
-                <a href={content?.social?.facebook || "#"} className="w-10 h-10 border border-white/50 rounded flex items-center justify-center hover:bg-white/10 transition-colors">
+                <a href={content?.social?.facebook || "https://www.facebook.com/share/1DTJnY8w79/"} className="w-10 h-10 border border-white/50 rounded flex items-center justify-center hover:bg-white/10 transition-colors">
                   <Facebook size={20} />
                 </a>
               </div>

@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { useData } from '../context/DataContext'; // DataContext ব্যবহার করা হয়েছে
+import { useData } from '../context/DataContext';
 
 // .env থেকে API URL এবং BASE URL কনফিগারেশন
 const API_URL = import.meta.env.VITE_API_BASE_URL || "";
@@ -9,9 +9,9 @@ const BASE_URL = API_URL ? API_URL.replace('/content', '') : '';
 
 const Events = () => {
   const { t, language } = useLanguage();
-  const { content, loading } = useData(); // গ্লোবাল ডাটা লোড করা হয়েছে
+  const { content, loading } = useData();
 
-  // DataContext থেকে ইভেন্ট লিস্ট নেওয়া
+  // DataContext থেকে ইভেন্ট লিস্ট নেওয়া
   const events = content?.events || [];
 
   if (loading) {
@@ -37,10 +37,14 @@ const Events = () => {
         {events.map((event: any, idx: number) => (
           <motion.div 
             key={event.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
+            // margin যুক্ত করা হয়েছে যেন কার্ড স্ক্রিনে আসার একটু আগেই রেন্ডার শুরু হয়
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }} 
+            // ম্যাক্সিমাম ডিলে লিমিট করা হয়েছে যাতে অনেক ইভেন্ট থাকলে ল্যাগ না করে
+            transition={{ duration: 0.5, delay: Math.min(idx * 0.1, 0.5) }} 
+            // ব্রাউজারকে আগে থেকেই প্রস্তুত রাখার জন্য (Hardware Acceleration)
+            style={{ willChange: "opacity, transform" }} 
             className="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden shadow-xl border border-border-subtle hover:shadow-2xl transition-all duration-500 group"
           >
             {/* ইমেজ সেকশন */}
@@ -51,6 +55,8 @@ const Events = () => {
                 alt={language === 'bn' ? event.title_bn : event.title_en} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 referrerPolicy="no-referrer"
+                loading="lazy" // <--- স্ক্রলিং ল্যাগ দূর করতে সাহায্য করবে
+                decoding="async" // <--- ইমেজের কারণে ব্রাউজার আটকে থাকবে না
               />
             </div>
 

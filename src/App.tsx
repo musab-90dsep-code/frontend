@@ -12,6 +12,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import { DataProvider } from './context/DataContext';
 import NewsDetail from './pages/NewsDetail'; // আপনার ফাইল পাথ অনুযায়ী
 import ScrollToTop from './pages/ScrollToTop'; // Path thik kore niben
+import AdmissionForm from './pages/AdmissionForm';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/teachers" element={<Teachers />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/admissions" element={<Admissions />} />
+            <Route path="/apply" element={<AdmissionForm />} />
             <Route path="/events" element={<Events />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />

@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { CheckCircle, Download, FileText } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { Link } from 'react-router-dom';
 
 const Admissions = () => {
   const { t } = useLanguage();
@@ -88,7 +89,7 @@ const Admissions = () => {
         {/* Tuition & Fees */}
         <div className="bg-primary-dark text-white rounded-2xl p-12 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-          <h3 className="font-serif text-4xl font-bold text-white mb-8 relative z-10">{t('admissions.feeTitle')}</h3>
+          <h3 className="font-serif text-4xl font-bold !text-white mb-8 relative z-10">{t('admissions.feeTitle')}</h3>
           <div className="space-y-8 relative z-10">
             <div className="flex justify-between items-end border-b border-white/10 pb-4">
               <span className="text-slate-300 font-light text-lg">{t('admissions.feeReg')} <span className="text-sm opacity-70 block">{t('admissions.feeRegTime')}</span></span>
@@ -98,14 +99,8 @@ const Admissions = () => {
               <span className="text-slate-300 font-light text-lg">{t('admissions.feeTuit1')} <span className="text-sm opacity-70 block">{t('admissions.feeTuit1Time')}</span></span>
               <span className="font-serif font-bold text-3xl">{t('admissions.feeTuit1Amt')}</span>
             </div>
-            <div className="flex justify-between items-end border-b border-white/10 pb-4">
-              <span className="text-slate-300 font-light text-lg">{t('admissions.feeTuit2')} <span className="text-sm opacity-70 block">{t('admissions.feeTuit2Time')}</span></span>
-              <span className="font-serif font-bold text-3xl">{t('admissions.feeTuit2Amt')}</span>
-            </div>
-            <div className="flex justify-between items-end pt-2">
-              <span className="text-slate-300 font-light text-lg">{t('admissions.feeBooks')} <span className="text-sm opacity-70 block">{t('admissions.feeBooksTime')}</span></span>
-              <span className="font-serif font-bold text-3xl">{t('admissions.feeBooksAmt')}</span>
-            </div>
+          
+          
           </div>
           <p className="mt-10 text-sm text-slate-400 font-light italic relative z-10">
             {t('admissions.feeNote')}
@@ -114,18 +109,24 @@ const Admissions = () => {
       </div>
 
       {/* Call to Action */}
+      {/* Call to Action */}
       <div className="text-center bg-white p-16 rounded-2xl shadow-xl border border-border-subtle">
         <h2 className="font-serif text-4xl font-bold text-primary-dark mb-8">{t('admissions.ctaTitle')}</h2>
         <div className="flex flex-col sm:flex-row justify-center gap-6">
-          <button className="bg-primary-dark text-white px-10 py-5 rounded-sm font-medium hover:bg-accent-emerald transition-colors flex items-center justify-center gap-3 shadow-lg text-lg">
+          
+          {/* <Link> ট্যাগ ব্যবহার করে নতুন পেজে পাঠানো হচ্ছে */}
+          <Link 
+            to="/apply" 
+            className="bg-primary-dark text-white px-10 py-5 rounded-sm font-medium hover:bg-accent-emerald transition-colors flex items-center justify-center gap-3 shadow-lg text-lg"
+          >
             <FileText size={22} /> {t('admissions.ctaBtn1')}
-          </button>
+          </Link>
+          
           <button className="bg-white border-2 border-primary-dark text-primary-dark px-10 py-5 rounded-sm font-medium hover:bg-slate-50 transition-colors flex items-center justify-center gap-3 shadow-sm text-lg">
             <Download size={22} /> {t('admissions.ctaBtn2')}
           </button>
         </div>
       </div>
-
     </div>
   );
 };

@@ -25,15 +25,22 @@ const staggerContainer = {
 };
 
 // Cloudinary URL-এ Transformation যুক্ত করার ফাংশন
-
 const getOptimizedHeroImage = (url: string) => {
   if (!url || !url.includes('cloudinary.com')) return url;
-  
-  // c_fill এর বদলে c_pad এবং b_blurred:400 দেওয়া হলো যাতে ছবি না কাটে
   return url.replace(
     '/upload/', 
     '/upload/c_pad,w_1920,h_1080,b_auto,q_auto,f_auto/'
   );
+};
+
+// --- Fallback Image Handler ---
+// এটি পুরনো ফোনের জন্য ছবি ফেইল করলে কল হবে
+const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const target = e.target as HTMLImageElement;
+  target.loading = "eager"; // লেজি লোডিং অফ করে দিবে
+  if (target.src.includes('f_auto')) {
+    target.src = target.src.replace('f_auto', 'f_jpg'); // WebP থেকে JPG তে ফোর্স করবে
+  }
 };
 
 const Home = () => {
@@ -80,20 +87,16 @@ const Home = () => {
   return (
     <div className="space-y-24 md:space-y-32 pb-24 bg-slate-50/30">
 
-      {/* Notice Modal */}
+      {/* Notice Modal (আগের মতোই থাকবে) */}
       <AnimatePresence>
         {selectedNotice && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-primary-dark/70 backdrop-blur-md p-4"
             onClick={() => setSelectedNotice(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 30 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 30 }}
+              initial={{ scale: 0.9, opacity: 0, y: 30 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 30 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="bg-white p-8 md:p-10 rounded-3xl max-w-lg w-full shadow-2xl relative overflow-hidden transform-gpu will-change-transform"
               onClick={e => e.stopPropagation()}
@@ -138,6 +141,7 @@ const Home = () => {
                 className="w-full h-full object-cover transform-gpu will-change-transform"
                 referrerPolicy="no-referrer"
                 decoding="async"
+                onError={handleImageError} // ১. Hero ইমেজে ফলব্যাক যোগ করা হলো
               />
               <div className="absolute inset-0 bg-gradient-to-b from-primary-dark/80 via-primary-dark/50 to-primary-dark/95 mix-blend-multiply transform-gpu"></div>
             </div>
@@ -157,12 +161,10 @@ const Home = () => {
           )}
         </div>
 
-        {/* Hero Text Content */}
+        {/* Hero Text Content (আগের মতোই থাকবে) */}
         <div className="relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center mt-10">
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: "easeOut" }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 uppercase tracking-tight leading-tight drop-shadow-2xl will-change-transform"
           >
             <Typewriter
@@ -175,9 +177,7 @@ const Home = () => {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4 }}
             className="text-lg md:text-2xl text-gray-200 font-medium max-w-3xl leading-relaxed drop-shadow-md will-change-transform"
           >
             {t('home.subtitle')}
@@ -196,29 +196,22 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Stats Section - Floating Design */}
+      {/* Stats Section (আগের মতোই থাকবে) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-30 mb-20">
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "50px", amount: 0.1 }}
+          variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px", amount: 0.1 }}
           className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.08)] border border-white p-8 md:p-12 grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4 transform-gpu will-change-transform"
         >
           {content?.stats?.map((stat: any, i: number) => (
             <motion.div
-              variants={fadeInUp}
-              whileHover={{ y: -8, scale: 1.02 }}
-              key={i}
+              variants={fadeInUp} whileHover={{ y: -8, scale: 1.02 }} key={i}
               className="text-center flex flex-col items-center gap-4 lg:border-r border-gray-200/60 last:border-0 will-change-transform"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner mb-2 transform rotate-3 hover:rotate-0 transition-transform">
                 {statsIcons[i]}
               </div>
               <div>
-                <h3 className="text-4xl md:text-5xl font-extrabold text-primary-dark tracking-tight">
-                  {stat.number}
-                </h3>
+                <h3 className="text-4xl md:text-5xl font-extrabold text-primary-dark tracking-tight">{stat.number}</h3>
                 <p className="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-widest mt-2">
                   {i18n?.language === 'bn' ? stat.label_bn : stat.label_en}
                 </p>
@@ -228,7 +221,7 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Dedicated Notice Board Section */}
+      {/* Notices Section (আগের মতোই থাকবে) */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <span className="text-accent-gold font-bold uppercase tracking-widest text-xs mb-2 block">Important Announcements</span>
@@ -237,16 +230,12 @@ const Home = () => {
         </div>
 
         <motion.div 
-          initial={{ opacity: 0, y: 30 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          viewport={{ once: true, margin: "50px" }} 
-          transition={{ delay: 0.1 }}
+          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }} transition={{ delay: 0.1 }}
           className="bg-gradient-to-br from-primary-dark to-emerald-900 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col p-1.5 relative transform-gpu will-change-transform"
         >
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 transform-gpu"></div>
           
           <div className="bg-white rounded-[2.2rem] flex flex-col relative z-10 overflow-hidden">
-            {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
               <div className="flex items-center gap-4">
                 <div className="bg-emerald-100 p-3 rounded-xl shadow-inner">
@@ -259,14 +248,11 @@ const Home = () => {
               </Link>
             </div>
             
-            {/* Scrollable List */}
             <div className="p-6 overflow-y-auto custom-scrollbar h-[400px] relative">
               <div className="flex flex-col gap-4">
                 {content.notices.map((notice: any, idx: number) => (
                   <motion.div 
-                    whileHover={{ x: 5, scale: 1.01 }}
-                    key={idx} 
-                    onClick={() => setSelectedNotice(notice)} 
+                    whileHover={{ x: 5, scale: 1.01 }} key={idx} onClick={() => setSelectedNotice(notice)} 
                     className="group flex gap-5 p-5 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer transform-gpu will-change-transform"
                   >
                     <div className="w-2 h-2 mt-2 rounded-full bg-accent-gold shrink-0 shadow-[0_0_8px_rgba(212,175,55,0.8)] group-hover:scale-150 transition-transform group-hover:bg-emerald-500"></div>
@@ -280,8 +266,6 @@ const Home = () => {
                 ))}
               </div>
             </div>
-
-            {/* Bottom Fade */}
             <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-[2.2rem]"></div>
           </div>
         </motion.div>
@@ -318,6 +302,7 @@ const Home = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 transform-gpu will-change-transform"
                     loading="lazy"
                     decoding="async"
+                    onError={handleImageError} // ২. Latest News ইমেজে ফলব্যাক যোগ করা হলো
                   />
                   <div className="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider shadow-lg">
                     Latest News
@@ -349,14 +334,18 @@ const Home = () => {
                 {content?.news?.slice(startNewsIndex + 1, startNewsIndex + 1 + ITEMS_PER_PAGE).map((newsItem: any, index: number) => (
                   <motion.div
                     key={newsItem.id || index}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.2, type: "tween", ease: "easeInOut" }}
+                    initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.2, type: "tween", ease: "easeInOut" }}
                     className="group border border-gray-100 rounded-2xl p-4 flex items-center gap-5 bg-white shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all transform-gpu will-change-transform"
                   >
                     <div className="w-32 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100 relative shadow-inner">
-                      <img src={newsItem.image_url} alt={newsItem.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 transform-gpu will-change-transform" />
+                      <img 
+                        src={newsItem.image_url} 
+                        alt={newsItem.title} 
+                        loading="lazy" 
+                        decoding="async" 
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 transform-gpu will-change-transform" 
+                        onError={handleImageError} // ৩. Small News ইমেজে ফলব্যাক যোগ করা হলো
+                      />
                     </div>
                     <div className="grow min-w-0 pr-2">
                       <p className="text-xs text-accent-gold font-bold uppercase tracking-wider mb-2">{newsItem.date}</p>
@@ -372,7 +361,7 @@ const Home = () => {
               </AnimatePresence>
             </div>
 
-            {/* Pagination Controls */}
+            {/* Pagination Controls (আগের মতোই থাকবে) */}
             <div className="flex justify-between items-center mt-6 px-2">
               <div className="flex gap-2">
                 {Array.from({ length: Math.ceil(Math.max(0, content.news.length - 1) / ITEMS_PER_PAGE) }).map((_, i) => (
@@ -392,10 +381,8 @@ const Home = () => {
         </div>
       </section>
 
-      
-
-      {/* Video Gallery Section */}
-      <section className="bg-gradient-to-b from-transparent via-emerald-50/50 to-transparent  overflow-hidden">
+      {/* Video Gallery Section (আগের মতোই থাকবে) */}
+      <section className="bg-gradient-to-b from-transparent via-emerald-50/50 to-transparent overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }}
@@ -441,7 +428,6 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "50px" }}
-          // এখানে flex-col এবং items-center ব্যবহার করে সবকিছু মাঝখানে আনা হয়েছে
           className="flex flex-col items-center justify-center text-center mb-12 gap-4 border-b border-gray-200 pb-8 will-change-transform"
         >
           <div>
@@ -449,7 +435,6 @@ const Home = () => {
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-primary-dark">
               {t('home.events.title')}
             </h2>
-            {/* ঐচ্ছিক: টাইটেলের নিচে একটি ছোট আন্ডারলাইন দিলে দেখতে আরও ভালো লাগে */}
             <div className="w-16 h-1 bg-accent-gold mx-auto mt-4 rounded-full"></div>
           </div>
           
@@ -474,7 +459,14 @@ const Home = () => {
                     <span className="block text-accent-gold text-lg">{isBn ? event.date_bn.split(' ')[0] : event.date_en.split(' ')[0]}</span>
                     {isBn ? event.date_bn.split(' ')[1] : event.date_en.split(' ')[1]}
                   </div>
-                  <img src={event.image_url} alt="Event" loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform" />
+                  <img 
+                    src={event.image_url} 
+                    alt="Event" 
+                    loading="lazy" 
+                    decoding="async" 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 transform-gpu will-change-transform" 
+                    onError={handleImageError} // ৪. Events ইমেজে ফলব্যাক যোগ করা হলো
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/60 to-transparent sm:bg-none sm:group-hover:bg-primary-dark/10 transition-colors duration-500 transform-gpu"></div>
                 </div>
 

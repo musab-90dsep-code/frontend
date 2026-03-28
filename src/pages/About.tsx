@@ -60,7 +60,7 @@ const About = () => {
           >
             <div className="aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative group">
               <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Darul_Uloom_Deoband.jpg/250px-Darul_Uloom_Deoband.jpg" 
+                src="https://res.cloudinary.com/dh2pky0qd/image/upload/v1774666035/Gemini_Generated_Image_t1oemlt1oemlt1oe_maojjs.png" 
                 alt="Madrasa History" 
                 loading="lazy" decoding="async"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 transform-gpu will-change-transform"
@@ -105,7 +105,7 @@ const About = () => {
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500 transform-gpu">
                 <span className="text-3xl text-white">🎯</span>
               </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-bold text-white mb-6 group-hover:text-emerald-300 transition-colors">{t('about.missionTitle')}</h3>
+              <h3 className="font-serif text-3xl md:text-4xl font-bold !text-white mb-6 group-hover:text-emerald-300 transition-colors">{t('about.missionTitle')}</h3>
               <p className="text-gray-300 leading-relaxed text-lg">
                 {t('about.missionDesc')}
               </p>
@@ -115,7 +115,7 @@ const About = () => {
               <div className="w-16 h-16 bg-gradient-to-br from-accent-gold to-yellow-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500 transform-gpu">
                 <span className="text-3xl text-white">👁️</span>
               </div>
-              <h3 className="font-serif text-3xl md:text-4xl font-bold text-white mb-6 group-hover:text-accent-gold transition-colors">{t('about.visionTitle')}</h3>
+              <h3 className="font-serif text-3xl md:text-4xl font-bold !text-white mb-6 group-hover:text-accent-gold transition-colors">{t('about.visionTitle')}</h3>
               <p className="text-gray-300 leading-relaxed text-lg">
                 {t('about.visionDesc')}
               </p>
@@ -150,7 +150,7 @@ const About = () => {
                   <BookOpen size={32} />
                 </div>
                 <div className="mt-8 md:mt-0">
-                  <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4">{t('home.features.f1Title')}</h3>
+                  <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4 !text-white">{t('home.features.f1Title')}</h3>
                   <p className="text-emerald-50/80 text-lg leading-relaxed max-w-lg">
                     {t('home.features.f1Desc')}
                   </p>

@@ -17,6 +17,7 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatSessionRef = useRef<any>(null);
+  const constraintsRef = useRef<HTMLDivElement>(null); // ড্রেগিং বাউন্ডারির জন্য
   const { language } = useLanguage();
 
   const apiKey = "AIzaSyByLou9swUDm46pIcT9AGRcMiK1XaKInCo";
@@ -120,6 +121,11 @@ Rules for answering:
 
   return (
     <>
+      {/* ড্রেগিং কন্টেইনার: এই অদৃশ্য div-টি পুরো স্ক্রিন জুড়ে থাকবে।
+        চ্যাটবটটি যেন স্ক্রিনের বাইরে চলে না যায়, তার জন্য এটি constraints হিসেবে কাজ করবে।
+      */}
+      <div className="fixed inset-0 pointer-events-none z-50" ref={constraintsRef} />
+
       {/* Floating Button */}
       <motion.button
         initial={{ scale: 0 }}
@@ -130,7 +136,6 @@ Rules for answering:
         className={`fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-tr from-emerald-700 to-emerald-500 text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-[0_8px_30px_rgb(4,120,87,0.4)] transition-all duration-300 z-50 ${isOpen ? 'hidden' : 'flex'}`}
       >
         <MessageCircle size={30} />
-        {/* Online Indicator on Floating Button */}
         <span className="absolute top-1 right-1 flex h-4 w-4">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500 border-2 border-white"></span>
@@ -145,17 +150,23 @@ Rules for answering:
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 w-[90vw] sm:w-[380px] h-[520px] max-h-[85vh] bg-slate-50 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] border border-gray-100 flex flex-col z-50 overflow-hidden"
+            
+            // ড্রেগিংয়ের জন্য নতুন কোড
+            drag
+            dragConstraints={constraintsRef} // স্ক্রিনের বাইরে যাওয়া ঠেকাবে
+            dragElastic={0.1} // টেনে ছাড়লে একটু বাউন্স করবে
+            dragMomentum={false} // ছাড়ার পর নিজে নিজে স্লাইড করবে না
+            
+            className="fixed bottom-6 right-6 w-[90vw] sm:w-[380px] h-[520px] max-h-[85vh] bg-slate-50 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] border border-gray-100 flex flex-col z-50 overflow-hidden pointer-events-auto"
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-emerald-700 to-emerald-600 p-4 flex justify-between items-center text-white shadow-md z-10">
+            {/* Header - এখানে cursor-move দেওয়া হয়েছে যাতে ইউজার বুঝতে পারে এটি টানা যাবে */}
+            <div className="bg-gradient-to-r from-emerald-700 to-emerald-600 p-4 flex justify-between items-center text-white shadow-md z-10 cursor-move active:cursor-grabbing">
               <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center border border-white/30">
+                <div className="relative w-10 h-10 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center border border-white/30 pointer-events-none">
                   <Bot size={20} />
-                  {/* Online dot inside header avatar */}
                   <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-emerald-600 rounded-full"></div>
                 </div>
-                <div>
+                <div className="pointer-events-none">
                   <h3 className="font-bold text-base leading-tight">
                     {language === 'bn' ? 'এআই অ্যাসিস্ট্যান্ট' : 'AI Assistant'}
                   </h3>
@@ -167,21 +178,24 @@ Rules for answering:
                   </div>
                 </div>
               </div>
+              
+              {/* Close Button - এতে onPointerDownPropagation Stop করা হয়েছে যেন বাটনে ক্লিক করলে ড্র্যাগ না হয় */}
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-emerald-50 transition-colors"
+                onPointerDown={(e) => e.stopPropagation()} 
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-emerald-50 transition-colors cursor-pointer"
               >
                 <X size={18} />
               </button>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50/80 backdrop-blur-xl">
+            {/* Messages Area - ড্রেগিং বন্ধ করা হয়েছে যাতে স্ক্রল করতে অসুবিধা না হয় */}
+            <div 
+              onPointerDown={(e) => e.stopPropagation()} 
+              className="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50/80 backdrop-blur-xl cursor-auto"
+            >
               {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
+                <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   {msg.sender === 'bot' && (
                     <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mr-2 mt-auto mb-1 flex-shrink-0">
                       <Sparkles size={12} className="text-emerald-700" />
@@ -214,8 +228,11 @@ Rules for answering:
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area */}
-            <div className="p-4 bg-white border-t border-gray-100 shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
+            {/* Input Area - এখানেও ড্রেগিং বন্ধ করা হয়েছে */}
+            <div 
+              onPointerDown={(e) => e.stopPropagation()} 
+              className="p-4 bg-white border-t border-gray-100 shadow-[0_-4px_10px_rgba(0,0,0,0.02)] cursor-auto"
+            >
               <div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-full border border-gray-200/60 focus-within:border-emerald-500/50 focus-within:bg-white transition-all shadow-inner">
                 <input
                   type="text"
@@ -234,7 +251,7 @@ Rules for answering:
                 </button>
               </div>
               <div className="text-center mt-2.5">
-                <p className="text-[10px] text-slate-400 font-medium tracking-wide">
+                <p className="text-[10px] text-slate-400 font-medium tracking-wide pointer-events-none">
                   Powered by <span className="text-emerald-600">Jami Islamiya AI</span>
                 </p>
               </div>
@@ -246,4 +263,4 @@ Rules for answering:
   );
 };
 
-export default Chatbot;
+export default Chatbot;``
