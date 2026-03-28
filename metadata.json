@@ -1,5 +1,22 @@
 {
   "name": "Markazul Fikri Wad Dawah",
-  "description": "A comprehensive website for Madrasa Al-Nur featuring history, teacher profiles, class schedules, admissions, and events.",
-  "requestFramePermissions": []
+  "short_name": "Fikri Madrasa",
+  "description": "Markazul Fikri Wad Dawah একটি স্বনামধন্য কওমি মাদরাসা। এখানে কুরআন, হাদিস, ফিকহসহ পূর্ণাঙ্গ দ্বীনি শিক্ষা প্রদান করা হয়।",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
