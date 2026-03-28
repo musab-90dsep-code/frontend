@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'motion/react'; // Ensure this matches your package (framer-motion is standard)
 import { Send, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { Link } from 'react-router-dom';
 
 const AdmissionForm = () => {
   const { language } = useLanguage();
-  
+
   const [formData, setFormData] = useState({
     name: '',
     fatherName: '',
@@ -17,9 +17,30 @@ const AdmissionForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Submitted: ", formData);
-    // এখানে আপনার Django API কল হবে
-    alert(language === 'bn' ? 'আবেদন সফলভাবে জমা হয়েছে!' : 'Application submitted successfully!');
+
+    // ১. এখানে আপনার প্রতিষ্ঠানের হোয়াটসঅ্যাপ নাম্বারটি দিন (কান্ট্রি কোড +88 সহ, কিন্তু + বাদে)
+    // উদাহরণ: 88017XXXXXXXX
+    const whatsappNumber = "8801929629508"; 
+
+    // ২. হোয়াটসঅ্যাপে যে মেসেজটি যাবে তার ফরম্যাট তৈরি করা
+    const message = `
+*New Admission Application*
+---------------------------
+*Student Name:* ${formData.name}
+*Father's Name:* ${formData.fatherName}
+*Phone Number:* ${formData.phone}
+*Department:* ${formData.department}
+*Address:* ${formData.address}
+    `.trim();
+
+    // ৩. মেসেজটিকে URL এনকোড করে হোয়াটসঅ্যাপ লিংক তৈরি করা
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    // ৪. নতুন ট্যাবে হোয়াটসঅ্যাপ ওপেন করা
+    window.open(whatsappUrl, '_blank');
+
+    // ৫. ফর্ম রিসেট করা এবং ইউজারকে অ্যালার্ট দেওয়া
+    alert(language === 'bn' ? 'আপনাকে হোয়াটসঅ্যাপে নিয়ে যাওয়া হচ্ছে...' : 'Redirecting to WhatsApp...');
     setFormData({ name: '', fatherName: '', phone: '', department: '', address: '' });
   };
 
@@ -27,16 +48,16 @@ const AdmissionForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // ... আপনার বাকি return (...) কোড ঠিক থাকবে ...
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-      
       {/* Back Button */}
       <Link to="/admissions" className="inline-flex items-center gap-2 text-text-muted hover:text-primary-dark transition-colors mb-8">
         <ArrowLeft size={20} />
         {language === 'bn' ? 'ভর্তির তথ্যে ফিরে যান' : 'Back to Admissions'}
       </Link>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-white rounded-2xl shadow-xl border border-border-subtle overflow-hidden"
@@ -56,7 +77,7 @@ const AdmissionForm = () => {
               <label className="block text-sm font-medium text-text-muted mb-2">
                 {language === 'bn' ? 'শিক্ষার্থীর পূর্ণ নাম *' : 'Student Full Name *'}
               </label>
-              <input 
+              <input
                 type="text" name="name" required
                 value={formData.name} onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg border border-border-subtle focus:border-accent-emerald focus:ring-1 focus:ring-accent-emerald outline-none transition-all"
@@ -67,7 +88,7 @@ const AdmissionForm = () => {
               <label className="block text-sm font-medium text-text-muted mb-2">
                 {language === 'bn' ? 'পিতার নাম *' : "Father's Name *"}
               </label>
-              <input 
+              <input
                 type="text" name="fatherName" required
                 value={formData.fatherName} onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg border border-border-subtle focus:border-accent-emerald focus:ring-1 focus:ring-accent-emerald outline-none transition-all"
@@ -81,7 +102,7 @@ const AdmissionForm = () => {
               <label className="block text-sm font-medium text-text-muted mb-2">
                 {language === 'bn' ? 'মোবাইল নম্বর *' : 'Phone Number *'}
               </label>
-              <input 
+              <input
                 type="tel" name="phone" required
                 value={formData.phone} onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg border border-border-subtle focus:border-accent-emerald focus:ring-1 focus:ring-accent-emerald outline-none transition-all"
@@ -92,7 +113,7 @@ const AdmissionForm = () => {
               <label className="block text-sm font-medium text-text-muted mb-2">
                 {language === 'bn' ? 'বিভাগ নির্বাচন করুন *' : 'Select Department *'}
               </label>
-              <select 
+              <select
                 name="department" required
                 value={formData.department} onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg border border-border-subtle focus:border-accent-emerald focus:ring-1 focus:ring-accent-emerald outline-none transition-all"
@@ -109,7 +130,7 @@ const AdmissionForm = () => {
             <label className="block text-sm font-medium text-text-muted mb-2">
               {language === 'bn' ? 'বর্তমান ঠিকানা *' : 'Current Address *'}
             </label>
-            <textarea 
+            <textarea
               name="address" rows={4} required
               value={formData.address} onChange={handleChange}
               className="w-full px-4 py-3 rounded-lg border border-border-subtle focus:border-accent-emerald focus:ring-1 focus:ring-accent-emerald outline-none transition-all resize-none"
@@ -117,13 +138,13 @@ const AdmissionForm = () => {
             ></textarea>
           </div>
 
-         <button 
-  type="submit"
-  className="w-full bg-emerald-600 text-white py-5 rounded-lg font-bold text-lg hover:bg-emerald-700 transition-colors flex justify-center items-center gap-3 shadow-lg mt-4"
->
-  <Send size={22} />
-  {language === 'bn' ? 'আবেদন জমা দিন' : 'Submit Application'}
-</button>
+          <button
+            type="submit"
+            className="w-full bg-emerald-600 text-white py-5 rounded-lg font-bold text-lg hover:bg-emerald-700 transition-colors flex justify-center items-center gap-3 shadow-lg mt-4"
+          >
+            <Send size={22} />
+            {language === 'bn' ? 'আবেদন জমা দিন' : 'Submit Application'}
+          </button>
         </form>
       </motion.div>
     </div>
