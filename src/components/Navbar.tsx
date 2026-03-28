@@ -42,28 +42,23 @@ const Navbar = () => {
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
 
-            {/* 1. Logo & Stacked Name (Compact Design) */}
+            {/* 1. Logo & Dynamic Name */}
             <Link to="/" className="flex items-center gap-2 group">
               {/* Logo Image */}
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm border border-transparent group-hover:border-emerald-200 transition-all overflow-hidden">
                 <img 
-                  src=" https://scontent.fdac202-1.fna.fbcdn.net/v/t39.30808-6/334283593_917475899297987_1560262514775438053_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeFWU4XoaXkkzzs2yJTydPfIPj-7uHaBR8c-P7u4doFHx8FN-76NaktMnq3IxUofL1AlnmgtmkvymheK1ykkQNZh&_nc_ohc=uAQvHWkrY6gQ7kNvwH59J3_&_nc_oc=AdrQquUKR3qXa81aHo6WAvPFtZ16dekoNRKa05F9iD6sLi0HEPy0TOaBIDsZLC7isto&_nc_zt=23&_nc_ht=scontent.fdac202-1.fna&_nc_gid=cjITFtYr_SnxxJMdx5qq9A&_nc_ss=7a32e&oh=00_AfwZKTjuo4RYgIPBIG3NAf97Ysys0hEiZS4NmXDNU2SUVQ&oe=69C96F1E" 
+                  src="https://scontent.fdac202-1.fna.fbcdn.net/v/t39.30808-6/334283593_917475899297987_1560262514775438053_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeFWU4XoaXkkzzs2yJTydPfIPj-7uHaBR8c-P7u4doFHx8FN-76NaktMnq3IxUofL1AlnmgtmkvymheK1ykkQNZh&_nc_ohc=uAQvHWkrY6gQ7kNvwH59J3_&_nc_oc=AdrQquUKR3qXa81aHo6WAvPFtZ16dekoNRKa05F9iD6sLi0HEPy0TOaBIDsZLC7isto&_nc_zt=23&_nc_ht=scontent.fdac202-1.fna&_nc_gid=cjITFtYr_SnxxJMdx5qq9A&_nc_ss=7a32e&oh=00_AfwZKTjuo4RYgIPBIG3NAf97Ysys0hEiZS4NmXDNU2SUVQ&oe=69C96F1E" 
                   alt="Madrasa Logo" 
                   className="w-full h-full object-contain p-0.5"
                 />
               </div>
 
-              {/* Stacked Text: ফন্ট সাইজ কমানো হয়েছে */}
-              <div className="flex flex-col justify-center mt-0.5">
-                <span className={`font-serif text-[13px] lg:text-[15px] font-bold leading-none whitespace-nowrap transition-colors duration-300 ${
+              {/* Dynamic Text: ভাষা অনুযায়ী নাম পরিবর্তন হবে */}
+              <div className="flex flex-col justify-center ml-1">
+                <span className={`font-serif text-[15px] sm:text-[17px] lg:text-[19px] font-bold leading-tight whitespace-nowrap transition-colors duration-300 ${
                   isTransparentAndDark ? 'text-emerald-400 drop-shadow-md' : 'text-emerald-700'
                 }`}>
-                  মারকাযুল ফিকরি ওয়াদ দাওয়াহ 
-                </span>
-                <span className={`text-[8px] lg:text-[9.5px] font-bold tracking-widest uppercase mt-1 whitespace-nowrap transition-colors duration-300 ${
-                  isTransparentAndDark ? 'text-white/90 drop-shadow-md' : 'text-primary-dark/80'
-                }`}>
-                  Markazul Fikri wad Dawah
+                  {language === 'bn' ? 'মারকাযুল ফিকরি ওয়াদ দাওয়াহ' : 'Markazul Fikri wad Dawah'}
                 </span>
               </div>
             </Link>

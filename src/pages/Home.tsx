@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Calendar, Bell, MapPin, Award, GraduationCap, BookOpen, Users, Clock, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -165,7 +165,7 @@ const Home = () => {
         <div className="relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center mt-10">
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: "easeOut" }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 uppercase tracking-tight leading-tight drop-shadow-2xl will-change-transform"
+            className="text-4xl md:text-6xl lg:text-7xl font-bold !text-white mb-6 uppercase tracking-tight leading-tight drop-shadow-2xl will-change-transform"
           >
             <Typewriter
               key={t('home.title1')}

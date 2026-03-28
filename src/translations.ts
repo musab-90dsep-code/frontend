@@ -11,9 +11,9 @@ export const translations = {
     },
     home: {
       badge: 'Excellence in Islamic Education',
-      title1: 'Illuminating',
-      title2: 'Hearts & Minds',
-      subtitle: 'A sanctuary of knowledge where traditional Islamic sciences meet modern academic excellence.',
+      title1: 'Shaping Hearts',
+      title2: 'Our Firm Pledge',
+      subtitle: 'Empowering souls to serve the nation through true guidance.',
       applyBtn: 'Apply for 2026',
       discoverBtn: 'Discover Our Legacy',
       stats: {
@@ -79,10 +79,10 @@ export const translations = {
     },
     about: {
       title: 'Our Story & Legacy',
-      subtitle: 'Founded on the principles of Knowledge (Ilm), Practice (Amal), and Service (Khidmah), Markazul Fikril wad Dawah has been a beacon of Islamic education since 2018. Under the supervision of Mufti Atiqur Rahman Qasemi (Hafizahullah), the institution is dedicated to nurturing sincere and exemplary individuals for the future.',
+      subtitle: 'Founded on the principles of Knowledge (Ilm), Practice (Amal), and Service (Khidmah), Markazul Fikril wad Dawah has been a beacon of Islamic education since 2021. Under the supervision of Mufti Atiqur Rahman Qasemi (Hafizahullah), the institution is dedicated to nurturing sincere and exemplary individuals for the future.',
       historyTitle: 'A Legacy of',
       historyTitleHighlight: 'Learning',
-      historyP1: 'Established in 2018 through the dedicated efforts of Mufti Atiqur Rahman Qasemi (Hafizahullah), Markazul Fikril wad Dawah began its journey as an Islamic educational institution with just 20 students. Recognizing the growing need for authentic and comprehensive Islamic education in society, by the infinite grace of Allah, the institution has rapidly expanded its educational programs and infrastructure. Today, it gracefully moves forward as a trusted and reliable center for Islamic knowledge.',
+      historyP1: 'Established in 2021 through the dedicated efforts of Mufti Atiqur Rahman Qasemi (Hafizahullah), Markazul Fikril wad Dawah began its journey as an Islamic educational institution with just 20 students. Recognizing the growing need for authentic and comprehensive Islamic education in society, by the infinite grace of Allah, the institution has rapidly expanded its educational programs and infrastructure. Today, it gracefully moves forward as a trusted and reliable center for Islamic knowledge.',
       historyP2: 'Today, we are proud to serve over 500 students across various programs, ranging from early childhood education to advanced Hifz and Alim courses. Our alumni have gone on to become community leaders, professionals, and scholars who contribute positively to society.',
       missionTitle: 'Our Mission',
       missionDesc: 'To provide a holistic Islamic education that empowers students with knowledge, instills moral values, and fosters a deep connection with their faith, enabling them to navigate the modern world with confidence and integrity.',
@@ -214,9 +214,9 @@ export const translations = {
     },
     home: {
       badge: 'ইসলামিক শিক্ষায় শ্রেষ্ঠত্ব',
-      title1: 'অন্তর ও মনকে',
-      title2: 'আলোকিত করা',
-      subtitle: 'জ্ঞানের এক অভয়ারণ্য যেখানে ঐতিহ্যবাহী ইসলামিক বিজ্ঞানের সাথে আধুনিক শিক্ষার সমন্বয় ঘটেছে।',
+      title1: 'আলোকিত মানুষ গড়ার',
+      title2: 'দৃঢ় অঙ্গীকার',
+      subtitle: 'সঠিক দীক্ষায় দীক্ষিত হয়ে দেশ ও জাতির কল্যাণে নিবেদিত প্রাণ হিসেবে নিজেকে গড়ে তুলুন।',
       applyBtn: '২০২৬ সালের জন্য আবেদন',
       discoverBtn: 'আমাদের ঐতিহ্য জানুন',
       stats: {
@@ -282,11 +282,11 @@ export const translations = {
     },
     about: {
       title: 'আমাদের গল্প ও ঐতিহ্য',
-      subtitle: 'ইলম, আমল ও খিদমতের মূলনীতিতে প্রতিষ্ঠিত মারকাযুল ফিকরিল ওয়াদ দাওয়াহ ২০১৮ সাল থেকে মুফতি আতিকুর রহমান কাসেমী হাফিজাহুল্লাহর তত্ত্বাবধানে দ্বীনি শিক্ষার এক আলোকবর্তিকা হিসেবে আদর্শ ও মুখলিস মানুষ গড়ে তুলছে।',
+      subtitle: 'ইলম, আমল ও খিদমতের মূলনীতিতে প্রতিষ্ঠিত মারকাযুল ফিকরিল ওয়াদ দাওয়াহ ,২০২১ সাল থেকে মুফতি আতিকুর রহমান কাসেমী হাফিজাহুল্লাহর তত্ত্বাবধানে দ্বীনি শিক্ষার এক আলোকবর্তিকা হিসেবে আদর্শ ও মুখলিস মানুষ গড়ে তুলছে।',
       historyTitle: 'শিক্ষার এক',
       historyTitleHighlight: 'ঐতিহ্য',
-      historyP1: '২০১৮ সালে মুফতি আতিকুর রহমান কাসেমী হাফিজাহুল্লাহর ঐকান্তিক প্রচেষ্টায় মারকাযুল ফিকরিল ওয়াদ দাওয়াহ প্রতিষ্ঠিত হয়। মাত্র ২০ জন শিক্ষার্থী নিয়ে একটি দ্বীনি শিক্ষা প্রতিষ্ঠান হিসেবে এর যাত্রা শুরু হয়েছিল। তৎকালীন সমাজে সহীহ ও ব্যাপক ইসলামিক শিক্ষার ক্রমবর্ধমান প্রয়োজনীয়তা অনুধাবন করে, আল্লাহর অশেষ মেহেরবানীতে প্রতিষ্ঠানটি অল্প সময়ের মধ্যেই এর শিক্ষা কার্যক্রম এবং অবকাঠামোগত পরিধি বিস্তৃত করতে সক্ষম হয়েছে। আজ এটি ইলমে দ্বীনের এক নির্ভরযোগ্য মারকায হিসেবে অগ্রসরমান।',
-      historyP2: 'আজ, আমরা প্রারম্ভিক শৈশব শিক্ষা থেকে শুরু করে উন্নত হিফজ এবং আলেম কোর্স পর্যন্ত বিভিন্ন প্রোগ্রামে ৫০০ জনেরও বেশি শিক্ষার্থীকে সেবা দিতে পেরে গর্বিত। আমাদের প্রাক্তন শিক্ষার্থীরা সমাজের নেতা, পেশাদার এবং পণ্ডিত হয়েছেন যারা সমাজে ইতিবাচক অবদান রাখছেন।',
+      historyP1: '.২০২১ সালে মুফতি আতিকুর রহমান কাসেমী হাফিজাহুল্লাহর ঐকান্তিক প্রচেষ্টায় মারকাযুল ফিকরিল ওয়াদ দাওয়াহ প্রতিষ্ঠিত হয়। মাত্র ২০ জন শিক্ষার্থী নিয়ে একটি দ্বীনি শিক্ষা প্রতিষ্ঠান হিসেবে এর যাত্রা শুরু হয়েছিল। তৎকালীন সমাজে সহীহ ও ব্যাপক ইসলামিক শিক্ষার ক্রমবর্ধমান প্রয়োজনীয়তা অনুধাবন করে, আল্লাহর অশেষ মেহেরবানীতে প্রতিষ্ঠানটি অল্প সময়ের মধ্যেই এর শিক্ষা কার্যক্রম এবং অবকাঠামোগত পরিধি বিস্তৃত করতে সক্ষম হয়েছে। আজ এটি ইলমে দ্বীনের এক নির্ভরযোগ্য মারকায হিসেবে অগ্রসরমান।',
+      historyP2: 'আজ, আমরা প্রারম্ভিক শৈশব শিক্ষা থেকে শুরু করে উন্নত হিফজ এবং আলেম কোর্স পর্যন্ত বিভিন্ন প্রোগ্রামে ২০০ জনেরও বেশি শিক্ষার্থীকে সেবা দিতে পেরে গর্বিত। আমাদের প্রাক্তন শিক্ষার্থীরা সমাজের নেতা, পেশাদার এবং পণ্ডিত হয়েছেন যারা সমাজে ইতিবাচক অবদান রাখছেন।',
       missionTitle: 'আমাদের লক্ষ্য',
       missionDesc: 'এমন একটি সামগ্রিক ইসলামিক শিক্ষা প্রদান করা যা শিক্ষার্থীদের জ্ঞান দিয়ে ক্ষমতায়িত করে, নৈতিক মূল্যবোধ জাগ্রত করে এবং তাদের বিশ্বাসের সাথে গভীর সম্পর্ক গড়ে তোলে, যাতে তারা আত্মবিশ্বাস এবং সততার সাথে আধুনিক বিশ্বের মোকাবিলা করতে পারে।',
       visionTitle: 'আমাদের রূপকল্প',
