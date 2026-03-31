@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --font-serif-en: "Playfair Display", serif;
+  --font-sans-en: "Inter", sans-serif;
+  --font-serif-bn: "Noto Serif Bengali", serif;
+  --font-sans-bn: "Noto Sans Bengali", sans-serif;
+}
+
+html[lang="en"] {
+  --font-serif-active: var(--font-serif-en);
+  --font-sans-active: var(--font-sans-en);
+}
+
+html[lang="bn"] {
+  --font-serif-active: var(--font-serif-bn);
+  --font-sans-active: var(--font-sans-bn);
+}
+
+/* Fallback if lang is not set */
+html {
+  --font-serif-active: var(--font-serif-bn);
+  --font-sans-active: var(--font-sans-bn);
+}
+
+@theme {
+  --font-serif: var(--font-serif-active);
+  --font-sans: var(--font-sans-active);
+  
+  /* Rich Forest Green & Gold Theme */
+  --color-bg-light: #FAFAF9; /* Warm stone/cream */
+  --color-primary-dark: #064E3B; /* Deep Forest Green */
+  --color-primary-light: #047857; /* Lighter Emerald */
+  --color-accent-gold: #D4AF37; /* Classic Gold */
+  --color-accent-sand: #E7E5E4;
+  --color-text-main: #1C1917;
+  --color-text-muted: #57534E;
+  --color-border-subtle: #E7E5E4;
+}
+
+body {
+  font-family: var(--font-sans-active);
+  background-color: var(--color-bg-light);
+  color: var(--color-text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Subtle noise texture for a premium organic feel */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif-active);
+  color: var(--color-primary-dark);
+}
+
+/* Custom scrollbar for a polished look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-dark);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-light);
+}
